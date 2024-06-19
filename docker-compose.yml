@@ -1,0 +1,14 @@
+name: dv23doucara_saas
+
+services:
+  api:
+    container_name: dv23doucara_saas
+    ports:
+      - "3201:3201"
+    restart: unless-stopped
+    command: start
+    build:
+      context: ./backend
+    environment:
+      - DATABASE_URL=mongodb+srv://doucarasitan:a4ja2233@cluster0.q81fwxu.mongodb.net/saas?retryWrites=true&w=majority
+      - PORT=3201
