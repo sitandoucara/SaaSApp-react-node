@@ -24,14 +24,14 @@ h2 {
   margin: 0;
   font-size: 2rem;
   color: white;
-  padding-bottom: 20px;
+  //padding-bottom: 20px;
 }
 
 p {
   margin: 0;
   font-size: 1.2rem;
   color: white;
-  padding-bottom: 40px;
+  //padding-bottom: 40px;
 }
 
 .button-container {

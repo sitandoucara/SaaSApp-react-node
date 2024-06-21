@@ -2,7 +2,7 @@ import { Redirect, Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -28,12 +28,13 @@ import "@ionic/react/css/display.css";
  */
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
-/* import '@ionic/react/css/palettes/dark.class.css'; */
-import "@ionic/react/css/palettes/dark.system.css";
+/* import '@ionic/react/css/palettes/dark.class.css'; 
+import "@ionic/react/css/palettes/dark.system.css";*/
 
 /* Theme variables */
 import "./theme/variables.css";
 import "./pages/Login.css";
+import "./pages/Home.css";
 
 setupIonicReact();
 
@@ -43,7 +44,9 @@ const App: React.FC = () => (
       <IonRouterOutlet>
         <Route path="/login" component={Login} exact={true} />
         <Route path="/home" component={Home} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/login" />} />
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
         {/*<Route exact path="/home">
           <Home />
         </Route>
