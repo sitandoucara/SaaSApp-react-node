@@ -7,6 +7,9 @@ npx prisma db push
 
 **docker-compose up --build
 
+**pour detapper les paramettere de securité du navigateur : npm install cors (Cross-Origin Resource Sharing)
+
+
 ------Test - postman------
 **Signup= POST - http://localhost:3200/auth/signup ({
   "email": "test@gmail.com",
@@ -20,5 +23,10 @@ npx prisma db push
   "password": "Password123!"
 }
 )
+
+***https://dv23doucara.mjm01.fr/auth/signin
+
+
+-------
 
 token-github: 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
