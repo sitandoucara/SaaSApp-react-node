@@ -1,8 +1,5 @@
 console.log("okkk");
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const helmet = require("helmet");
+const app = require("./src/app");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcryptjs");
@@ -10,10 +7,6 @@ require("dotenv").config();
 console.log("Database URL:", process.env.DATABASE_URL);
 
 const PORT = process.env.PORT || 3000;
-
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(helmet());
 
 const mailPattern =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
