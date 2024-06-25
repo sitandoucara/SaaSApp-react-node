@@ -41,12 +41,16 @@ const Profile: React.FC = () => {
           <IonRow class="ion-justify-content-center">
             <IonCol>
               <IonList className="list" inset={true}>
-                <IonItem button className="custom-ion-item">
+                <IonItem button className="custom-ion-item" href="/login">
                   <IonIcon slot="start" size="large" icon={personCircleSharp} />
                   <IonLabel>Login/Sign Up</IonLabel>
                 </IonItem>
 
-                <IonItem button className="custom-ion-item">
+                <IonItem
+                  button
+                  className="custom-ion-item"
+                  href="/subscription"
+                >
                   <IonIcon slot="start" size="large" icon={pricetagSharp} />
                   <IonLabel>Subscription</IonLabel>
                 </IonItem>

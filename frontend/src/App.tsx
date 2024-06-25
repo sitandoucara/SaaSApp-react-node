@@ -7,6 +7,7 @@ import News from "./pages/News";
 import Profile from "./pages/Profile";
 import Contact from "./pages/Contact";
 import Legal from "./pages/Legal";
+import Subscription from "./pages/Subscription";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -52,6 +53,7 @@ const App: React.FC = () => (
         <Route path="/profile" component={Profile} exact={true} />
         <Route path="/contact" component={Contact} exact={true} />
         <Route path="/legal" component={Legal} exact={true} />
+        <Route path="/subscription" component={Subscription} exact={true} />
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>

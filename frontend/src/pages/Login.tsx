@@ -1,21 +1,78 @@
-import { IonContent, IonPage, IonButton } from "@ionic/react";
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
+  IonButton,
+  IonIcon,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from "@ionic/react";
+import { chevronBackSharp } from "ionicons/icons";
+
 import "./Login.css";
 
 const Login = () => {
   return (
     <IonPage>
-      <IonContent fullscreen>
+      <IonHeader collapse="fade">
+        <IonToolbar>
+          <IonGrid fixed={true}>
+            <IonRow class="ion-justify-content-between">
+              <IonCol size="6" className="flex">
+                <IonIcon size="large" icon={chevronBackSharp} />
+                <h2
+                  style={{
+                    color: "#7b635a",
+                    fontWeight: "bold",
+                    margin: "0 10px",
+                  }}
+                >
+                  <a href="/profile" style={{ color: "#7b635a" }}>
+                    Back
+                  </a>
+                </h2>
+              </IonCol>
+
+              <IonCol size="6">
+                <p
+                  style={{
+                    color: "#7b635a",
+                    fontWeight: "bold",
+                    margin: "0 10px",
+                  }}
+                >
+                  Login
+                </p>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonToolbar>
+      </IonHeader>
+
+      <IonContent fullscreen className="ion-padding">
         <div className="login-container">
-          <h1>Welcome</h1>
-          <h2>to FuniiLearn!</h2>
-          <p>Play, Learn and Explore with Exciting Quizz</p>
+          <h1>Hey </h1>
+          <h2>Ready to try ListBooks!</h2>
+          <p>So let's Go!</p>
           <div className="button-container">
-            <IonButton className="custom-button" routerLink="/signup">
+            <IonButton
+              expand="block"
+              className="custom-button-active"
+              routerLink="/signup"
+            >
               Sign Up
             </IonButton>
             <IonButton
               expand="block"
-              className="custom-button"
+              className="custom-button-inactive"
               routerLink="/signin"
             >
               Sign In

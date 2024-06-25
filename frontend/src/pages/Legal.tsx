@@ -41,7 +41,7 @@ const Legal: React.FC = () => {
                     margin: "0 10px",
                   }}
                 >
-                  Contacts
+                  Legals
                 </p>
               </IonCol>
             </IonRow>

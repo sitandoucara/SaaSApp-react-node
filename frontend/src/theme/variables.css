@@ -35,3 +35,15 @@ ion-item {
   align-items: center;
   height: 100%;
 }*/
+
+/*.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}*/
+
+.custom-button-active {
+  --background: #32221e;
+  --color: #fbf8f6;
+}

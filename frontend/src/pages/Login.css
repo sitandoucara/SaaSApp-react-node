@@ -1,11 +1,11 @@
 .login-container {
-  background-color: #423370;
+  /*background-color: #423370;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  //background-image: url("/background.png");
+  //background-image: url("/background.png");*/
   height: 100vh;
-  display: flex;
+  //display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
@@ -17,20 +17,20 @@
 h1 {
   margin: 0;
   font-size: 2.5rem;
-  color: white;
+  //color: white;
 }
 
 h2 {
   margin: 0;
   font-size: 2rem;
-  color: white;
+  //color: white;
   //padding-bottom: 20px;
 }
 
 p {
   margin: 0;
   font-size: 1.2rem;
-  color: white;
+  //color: white;
   //padding-bottom: 40px;
 }
 
