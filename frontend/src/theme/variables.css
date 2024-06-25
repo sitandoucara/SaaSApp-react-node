@@ -9,25 +9,29 @@ http://ionicframework.com/docs/theming/ */
   --ion-active-color: #32221e;
   --ion-inactive-color: #b3a29b;
   --ion-icon-size: 2rem;
-  --ion-padding-vertical: 2px;
+  --padding: 16px;
 }
 
 ion-item {
   --background: #ffffff;
-  --ion-padding-vertical: 2px !important;
 }
 
 .list {
   background: #ffffff;
 }
 
+.ion-padding {
+  padding: 16px !important;
+}
+
 .custom-ion-item {
   padding: 12px 0;
 }
 
+/*
 .ion-content-centered {
   display: grid !important;
   justify-content: center;
   align-items: center;
   height: 100%;
-}
+}*/

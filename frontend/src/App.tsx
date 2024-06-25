@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import News from "./pages/News";
 import Profile from "./pages/Profile";
+import Contact from "./pages/Contact";
+import Legal from "./pages/Legal";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -14,9 +16,9 @@ import "@ionic/react/css/normalize.css";
 import "@ionic/react/css/structure.css";
 import "@ionic/react/css/typography.css";
 
-/* Optional CSS utils that can be commented out 
+/* Optional CSS utils that can be commented out */
 import "@ionic/react/css/padding.css";
-import "@ionic/react/css/float-elements.css";
+/*import "@ionic/react/css/float-elements.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
@@ -35,7 +37,7 @@ import "@ionic/react/css/palettes/dark.system.css";*/
 
 /* Theme variables */
 import "./theme/variables.css";
-import "./pages/Login.css";
+//import "./pages/Login.css";
 import "./pages/Home.css";
 
 setupIonicReact();
@@ -48,6 +50,8 @@ const App: React.FC = () => (
         <Route path="/home" component={Home} exact={true} />
         <Route path="/news" component={News} exact={true} />
         <Route path="/profile" component={Profile} exact={true} />
+        <Route path="/contact" component={Contact} exact={true} />
+        <Route path="/legal" component={Legal} exact={true} />
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>

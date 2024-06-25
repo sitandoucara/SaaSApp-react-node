@@ -12,7 +12,9 @@ import {
   IonFooter,
   IonTabBar,
   IonTabButton,
+  IonCol,
   IonGrid,
+  IonRow,
 } from "@ionic/react";
 import {
   homeSharp,
@@ -35,27 +37,37 @@ const Profile: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <IonList className="list" inset={true}>
-          <IonItem button className="custom-ion-item">
-            <IonIcon slot="start" size="large" icon={personCircleSharp} />
-            <IonLabel>Login/Sign Up</IonLabel>
-          </IonItem>
+        <IonGrid>
+          <IonRow class="ion-justify-content-center">
+            <IonCol>
+              <IonList className="list" inset={true}>
+                <IonItem button className="custom-ion-item">
+                  <IonIcon slot="start" size="large" icon={personCircleSharp} />
+                  <IonLabel>Login/Sign Up</IonLabel>
+                </IonItem>
 
-          <IonItem button className="custom-ion-item">
-            <IonIcon slot="start" size="large" icon={pricetagSharp} />
-            <IonLabel>Subscription</IonLabel>
-          </IonItem>
+                <IonItem button className="custom-ion-item">
+                  <IonIcon slot="start" size="large" icon={pricetagSharp} />
+                  <IonLabel>Subscription</IonLabel>
+                </IonItem>
 
-          <IonItem button className="custom-ion-item">
-            <IonIcon slot="start" size="large" icon={informationCircleSharp} />
-            <IonLabel>Legal Mentions</IonLabel>
-          </IonItem>
+                <IonItem button className="custom-ion-item" href="/legal">
+                  <IonIcon
+                    slot="start"
+                    size="large"
+                    icon={informationCircleSharp}
+                  />
+                  <IonLabel>Legal Mentions</IonLabel>
+                </IonItem>
 
-          <IonItem button className="custom-ion-item">
-            <IonIcon slot="start" size="large" icon={mailSharp} />
-            <IonLabel>Contact</IonLabel>
-          </IonItem>
-        </IonList>
+                <IonItem button className="custom-ion-item" href="/contact">
+                  <IonIcon slot="start" size="large" icon={mailSharp} />
+                  <IonLabel>Contact</IonLabel>
+                </IonItem>
+              </IonList>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonContent>
 
       <IonFooter>
