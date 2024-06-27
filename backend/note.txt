@@ -16,6 +16,11 @@ npx prisma db push
   "name": "Test User",
   "password": "Password123!"
 }
+
+{ "email": "test222@gmail.com",
+  "name": "Test22",
+  "password": "Password123!"
+}
 )
 
 **Signin= POST - http://localhost:3200/auth/signin ({

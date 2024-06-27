@@ -2,13 +2,7 @@ import {
   IonPage,
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonContent,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
-  IonCardContent,
   IonButton,
   IonIcon,
   IonGrid,
@@ -17,9 +11,7 @@ import {
 } from "@ionic/react";
 import { chevronBackSharp } from "ionicons/icons";
 
-import "./Login.css";
-
-const Login = () => {
+const Login: React.FC = () => {
   return (
     <IonPage>
       <IonHeader collapse="fade">
@@ -49,7 +41,7 @@ const Login = () => {
                     margin: "0 10px",
                   }}
                 >
-                  Login
+                  Connexion
                 </p>
               </IonCol>
             </IonRow>
@@ -57,28 +49,29 @@ const Login = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen className="ion-padding">
-        <div className="login-container">
-          <h1>Hey </h1>
-          <h2>Ready to try ListBooks!</h2>
-          <p>So let's Go!</p>
-          <div className="button-container">
-            <IonButton
-              expand="block"
-              className="custom-button-active"
-              routerLink="/signup"
-            >
-              Sign Up
-            </IonButton>
-            <IonButton
-              expand="block"
-              className="custom-button-inactive"
-              routerLink="/signin"
-            >
-              Sign In
-            </IonButton>
-          </div>
-        </div>
+      <IonContent className="ion-padding">
+        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Connexion</h2>
+
+        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
+          Pas de compte ? <a href="/signup">S'inscrire</a>
+        </h2>
+        <IonButton
+          type="submit"
+          className="custom-button-active"
+          expand="block"
+          shape="round"
+          href="/signin"
+        >
+          signin
+        </IonButton>
+        <IonButton
+          type="submit"
+          className="custom-button-active"
+          expand="block"
+          shape="round"
+        >
+          signup
+        </IonButton>
       </IonContent>
     </IonPage>
   );

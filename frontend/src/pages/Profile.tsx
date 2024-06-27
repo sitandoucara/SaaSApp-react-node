@@ -25,9 +25,21 @@ import {
   pricetagSharp,
   informationCircleSharp,
   mailSharp,
+  logOutSharp,
 } from "ionicons/icons";
+import { useAppSelector, useAppDispatch } from "../hooks";
+import { RootState } from "../app/store";
+import { clearUser } from "../features/auth/authSlice";
 
 const Profile: React.FC = () => {
+  const user = useAppSelector((state: RootState) => state.auth.user);
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+    window.location.href = "/home";
+  };
+
   return (
     <IonPage>
       <IonHeader collapse="fade">
@@ -41,10 +53,35 @@ const Profile: React.FC = () => {
           <IonRow class="ion-justify-content-center">
             <IonCol>
               <IonList className="list" inset={true}>
-                <IonItem button className="custom-ion-item" href="/login">
-                  <IonIcon slot="start" size="large" icon={personCircleSharp} />
-                  <IonLabel>Login/Sign Up</IonLabel>
-                </IonItem>
+                {user ? (
+                  <>
+                    <IonItem button className="custom-ion-item" href="/account">
+                      <IonIcon
+                        slot="start"
+                        size="large"
+                        icon={personCircleSharp}
+                      />
+                      <IonLabel>My Account</IonLabel>
+                    </IonItem>
+                    <IonItem
+                      button
+                      className="custom-ion-item"
+                      onClick={handleLogout}
+                    >
+                      <IonIcon slot="start" size="large" icon={logOutSharp} />
+                      <IonLabel>Logout</IonLabel>
+                    </IonItem>
+                  </>
+                ) : (
+                  <IonItem button className="custom-ion-item" href="/login">
+                    <IonIcon
+                      slot="start"
+                      size="large"
+                      icon={personCircleSharp}
+                    />
+                    <IonLabel>Login/Sign Up</IonLabel>
+                  </IonItem>
+                )}
 
                 <IonItem
                   button

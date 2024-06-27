@@ -22,11 +22,17 @@ import {
   bookmarkSharp,
   personSharp,
 } from "ionicons/icons";
+import { useAppSelector } from "../hooks";
+import { RootState } from "../app/store";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Home.css";
 
 const Home: React.FC = () => {
+  const user = useAppSelector((state: RootState) => state.auth.user);
+
+  //console.log("Current user from Redux:", user);
+
   return (
     <IonPage>
       <IonHeader collapse="fade">
@@ -41,11 +47,11 @@ const Home: React.FC = () => {
                 <h1
                   style={{
                     color: "#7b635a",
-                    fontWeight: "bold",
+                    fontWeight: "medium",
                     margin: "0 10px",
                   }}
                 >
-                  Hi!
+                  Hi, {user ? user.name : "You"}!
                 </h1>
               </IonCol>
 
