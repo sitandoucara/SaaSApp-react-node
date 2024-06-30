@@ -1,7 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// Get all news articles
 const getAllNews = async (req, res) => {
   try {
     const news = await prisma.news.findMany();
@@ -11,7 +10,6 @@ const getAllNews = async (req, res) => {
   }
 };
 
-// Get a single news article by ID
 const getNewsById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -26,7 +24,6 @@ const getNewsById = async (req, res) => {
   }
 };
 
-// Create a new news article
 const createNews = async (req, res) => {
   const { title, content } = req.body;
   try {
@@ -39,7 +36,6 @@ const createNews = async (req, res) => {
   }
 };
 
-// Update a news article by ID
 const updateNews = async (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
@@ -54,7 +50,6 @@ const updateNews = async (req, res) => {
   }
 };
 
-// Delete a news article by ID
 const deleteNews = async (req, res) => {
   const { id } = req.params;
   try {

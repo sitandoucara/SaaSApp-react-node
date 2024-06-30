@@ -145,11 +145,7 @@ const Home: React.FC = () => {
             <IonIcon icon={newspaperSharp} />
             <IonLabel>News</IonLabel>
           </IonTabButton>
-          <IonTabButton
-            tab="favorites"
-            href="/favorites"
-            className="footer-tab-button"
-          >
+          <IonTabButton tab="favorites" href="#" className="footer-tab-button">
             <IonIcon icon={bookmarkSharp} />
             <IonLabel>Favorites</IonLabel>
           </IonTabButton>

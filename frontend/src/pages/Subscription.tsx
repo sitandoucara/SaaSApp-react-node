@@ -3,7 +3,6 @@ import {
   IonPage,
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonContent,
   IonCard,
   IonCardHeader,
@@ -17,8 +16,38 @@ import {
   IonCol,
 } from "@ionic/react";
 import { chevronBackSharp } from "ionicons/icons";
+import { useAppSelector } from "../hooks";
+import { RootState } from "../app/store";
 
 const Subscription: React.FC = () => {
+  const user = useAppSelector((state: RootState) => state.auth.user);
+
+  const handleChooseClick = async () => {
+    if (!user) {
+      window.location.href = "/login";
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:3201/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ priceId: "price_1PVr2LLqME1LbpvO960nUIGE" }),
+        }
+      );
+
+      const session = await response.json();
+      window.location.href = session.url;
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+    }
+  };
+
   return (
     <IonPage>
       <IonHeader collapse="fade">
@@ -65,12 +94,12 @@ const Subscription: React.FC = () => {
           <IonCardContent>
             <p>°Access to all audio books.</p>
             <p>°No ads.</p>
-
             <IonButton
-              type="submit"
+              type="button"
               className="custom-button-active"
               expand="block"
               shape="round"
+              onClick={handleChooseClick}
             >
               Choose
             </IonButton>

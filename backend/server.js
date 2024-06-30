@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
+const stripeController = require("./src/controllers/stripeController");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 require("dotenv").config();
@@ -20,7 +21,7 @@ const passwordPattern =
 
 function generateToken(user) {
   return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "5h",
   });
 }
 
@@ -140,5 +141,12 @@ app.post("/contact", async (req, res) => {
       .json({ error: "An error occurred while sending the email" });
   }
 });
+
+// Stripe route
+app.post(
+  "/create-checkout-session",
+  authenticateToken,
+  stripeController.createCheckoutSession
+);
 
 app.listen(PORT, () => console.log(`Application launched on port ${PORT} !!!`));
