@@ -18,6 +18,7 @@ import {
 import { chevronBackSharp } from "ionicons/icons";
 import { useAppSelector } from "../hooks";
 import { RootState } from "../app/store";
+import axios from "axios";
 
 const Subscription: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
@@ -29,20 +30,25 @@ const Subscription: React.FC = () => {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:3201/create-checkout-session",
+      const response = await axios.post(
+        "http://localhost:3201/stripe/create-checkout-session",
+        { priceId: "price_1PVr2LLqME1LbpvO960nUIGE" },
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: JSON.stringify({ priceId: "price_1PVr2LLqME1LbpvO960nUIGE" }),
         }
       );
 
-      const session = await response.json();
-      window.location.href = session.url;
+      console.log("Checkout session response:", response.data); // Debugging line
+
+      const { url } = response.data;
+      if (url) {
+        window.location.href = url;
+      } else {
+        console.error("No URL found in the response");
+      }
     } catch (error) {
       console.error("Error creating checkout session:", error);
     }

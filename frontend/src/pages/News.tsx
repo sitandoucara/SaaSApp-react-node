@@ -37,7 +37,7 @@ const News: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(" http://localhost:3201/news")
+      .get("http://localhost:3201/news")
       .then((response) => {
         setArticles(response.data);
       })

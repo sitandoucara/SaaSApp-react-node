@@ -35,3 +35,7 @@ npx prisma db push
 -------
 
 token-github: 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
+
+------
+customair_portail: (button : pour gerer son abonnement)
+listbooks10 (coupon)

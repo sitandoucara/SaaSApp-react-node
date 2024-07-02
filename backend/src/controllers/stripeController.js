@@ -1,5 +1,5 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2024-06-28",
+  apiVersion: "2022-11-15",
 });
 
 exports.createCheckoutSession = async (req, res) => {
@@ -15,12 +15,48 @@ exports.createCheckoutSession = async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: `${domainURL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${domainURL}/canceled.html`,
+      success_url: `${domainURL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${domainURL}/canceled`,
     });
 
     res.status(200).json({ url: session.url });
   } catch (e) {
+    res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
+};
+
+exports.getCheckoutSession = async (req, res) => {
+  const { sessionId } = req.query;
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    res.status(200).json(session);
+  } catch (e) {
+    res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
+};
+
+exports.createBillingPortalSession = async (req, res) => {
+  const { customerId } = req.body;
+  const returnUrl = process.env.DOMAIN;
+
+  try {
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: customerId,
+      return_url: returnUrl,
+    });
+
+    res.status(200).json({ url: portalSession.url });
+  } catch (e) {
+    console.error("Error creating billing portal session:", e.message);
     res.status(400).send({
       error: {
         message: e.message,
