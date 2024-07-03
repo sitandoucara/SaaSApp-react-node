@@ -41,7 +41,7 @@ const Subscription: React.FC = () => {
         }
       );
 
-      console.log("Checkout session response:", response.data); // Debugging line
+      console.log("Checkout session response:", response.data);
 
       const { url } = response.data;
       if (url) {

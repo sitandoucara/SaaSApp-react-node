@@ -39,3 +39,5 @@ token-github: github_pat_11A32VKHA0naAufOm6xjDU_iq3bfXqWfDY5nWDUOxFQx0QhCHNzdkUJ
 ------
 customair_portail: (button : pour gerer son abonnement)
 listbooks10 (coupon)
+
+----- add stripecustomerid

@@ -15,6 +15,7 @@ exports.createCheckoutSession = async (req, res) => {
           quantity: 1,
         },
       ],
+      allow_promotion_codes: true,
       success_url: `${domainURL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${domainURL}/canceled`,
     });
@@ -45,7 +46,7 @@ exports.getCheckoutSession = async (req, res) => {
 };
 
 exports.createBillingPortalSession = async (req, res) => {
-  const { customerId } = req.body;
+  const customerId = "cus_QPCuDanM1VmYPn";
   const returnUrl = process.env.DOMAIN;
 
   try {
@@ -53,7 +54,7 @@ exports.createBillingPortalSession = async (req, res) => {
       customer: customerId,
       return_url: returnUrl,
     });
-
+    console.log("test customer", portalSession);
     res.status(200).json({ url: portalSession.url });
   } catch (e) {
     console.error("Error creating billing portal session:", e.message);
