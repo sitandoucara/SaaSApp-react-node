@@ -23,6 +23,13 @@ npx prisma db push
 }
 )
 
+-
+{ "email": "test_f@gmail.com",
+  "name": "Test_f",
+  "password": "Password123!"
+}
+----- :  email: 'test_f@gmail.com', password: 'Password123!'
+
 **Signin= POST - http://localhost:3200/auth/signin ({
   "email": "test@gmail.com",
   "password": "Password123!"
@@ -41,4 +48,3 @@ customair_portail: (button : pour gerer son abonnement)
 listbooks10 (coupon)
 
 ----- add stripecustomerid
-//Dans mon getcheoutsession comment stoker le customer id de stripe dedans 

@@ -50,11 +50,7 @@ const Login: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Connexion</h2>
-
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
-          Pas de compte ? <a href="/signup">S'inscrire</a>
-        </h2>
+        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Welcome!</h2>
         <IonButton
           type="submit"
           className="custom-button-active"
@@ -69,6 +65,7 @@ const Login: React.FC = () => {
           className="custom-button-active"
           expand="block"
           shape="round"
+          href="/signup"
         >
           signup
         </IonButton>

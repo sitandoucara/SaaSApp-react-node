@@ -61,6 +61,15 @@ app.post("/auth/signup", async (req, res) => {
     res.status(201).json(newUser);
   } catch (error) {
     console.error("Error creating user:", error);
+    if (
+      error.code === "P2002" &&
+      error.meta &&
+      error.meta.target.includes("email")
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Sorry! This email is already taken." });
+    }
     res
       .status(500)
       .json({ error: "An error occurred while creating the user" });

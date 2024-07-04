@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import Legal from "./pages/Legal";
 import Subscription from "./pages/Subscription";
 import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
 import store from "./app/store";
 import Success from "./pages/Success";
 import Canceled from "./pages/Canceled";
@@ -53,6 +54,7 @@ const App: React.FC = () => (
           <IonRouterOutlet>
             <Route path="/login" component={Login} exact={true} />
             <Route path="/signin" component={Signin} exact={true} />
+            <Route path="/signup" component={Signup} exact={true} />
             <Route path="/home" component={Home} exact={true} />
             <Route path="/news" component={News} exact={true} />
             <Route path="/profile" component={Profile} exact={true} />
