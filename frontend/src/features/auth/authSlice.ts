@@ -5,6 +5,7 @@ interface AuthState {
     id: string;
     name: string;
     email: string;
+    stripeCustomerId?: string;
   } | null;
   token: string | null;
 }

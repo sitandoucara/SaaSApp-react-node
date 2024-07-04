@@ -1,26 +1,32 @@
 import React, { useEffect, useState } from "react";
 import {
   IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
   IonContent,
+  IonButton,
+  IonLabel,
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonCardSubtitle,
-  IonButton,
-  IonIcon,
   IonCardContent,
+  IonIcon,
 } from "@ionic/react";
-import { checkmarkSharp } from "ionicons/icons";
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { setUser } from "../features/auth/authSlice";
+import { checkmarkSharp } from "ionicons/icons";
 
 const Success: React.FC = () => {
-  const history = useHistory();
+  //const history = useHistory();
   const [session, setSession] = useState<any>(null);
-  const [billingPortalUrl, setBillingPortalUrl] = useState<string | null>(null);
   const sessionId = new URLSearchParams(window.location.search).get(
     "session_id"
   );
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -30,16 +36,15 @@ const Success: React.FC = () => {
             `http://localhost:3201/stripe/checkout-session?sessionId=${sessionId}`
           );
           setSession(response.data);
+          if (user) {
+            dispatch(
+              setUser({
+                user: { ...user, stripeCustomerId: response.data.customer },
+                token: localStorage.getItem("token")!,
+              })
+            );
+          }
           console.log("Checkout Session Response:", response.data);
-
-          const customerId = response.data.customer;
-          const portalResponse = await axios.post(
-            "http://localhost:3201/stripe/create-billing-portal-session",
-            {
-              customerId,
-            }
-          );
-          setBillingPortalUrl(portalResponse.data.url);
         } catch (error) {
           console.error("Error fetching checkout session:", error);
         }
@@ -47,48 +52,70 @@ const Success: React.FC = () => {
     };
 
     fetchSession();
-  }, [sessionId]);
+  }, [sessionId, dispatch, user]);
+
+  const handleManageSubscription = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3201/stripe/create-billing-portal-session",
+        { customerId: user?.stripeCustomerId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error("Error creating billing portal session:", error);
+    }
+  };
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Payment Success</IonTitle>
+        </IonToolbar>
+      </IonHeader>
       <IonContent className="ion-padding">
-        <IonIcon icon={checkmarkSharp} size="large" />
-        <h1>Payment Succeeded!</h1>
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>
-              {session
-                ? `${
-                    session.amount_total / 100
-                  } ${session.currency.toUpperCase()}`
-                : "Loading..."}
-            </IonCardTitle>
-            <IonCardSubtitle>
-              Date:{" "}
-              {session
-                ? new Date(session.created * 1000).toLocaleDateString()
-                : "Loading..."}
-            </IonCardSubtitle>
+            <IonIcon icon={checkmarkSharp} size="large" />
+            <IonCardTitle>Payment Succeeded!</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <IonButton
-                type="submit"
-                className="custom-button-active"
-                shape="round"
-                href="/home"
-              >
-                Home
-              </IonButton>
-              <IonButton
-                type="submit"
-                className="custom-button-active"
-                shape="round"
-                href={billingPortalUrl ? billingPortalUrl : "#"}
-              >
-                More
-              </IonButton>
-            </div>
+            <IonLabel>
+              <p>
+                <strong>Amount Paid:</strong>{" "}
+                {(session?.amount_total / 100).toFixed(2)}{" "}
+                {session?.currency.toUpperCase()}
+              </p>
+            </IonLabel>
+            <IonLabel>
+              <p>
+                <strong>Date:</strong>{" "}
+                {new Date(session?.created * 1000).toLocaleDateString()}
+              </p>
+            </IonLabel>
+            <IonButton
+              type="button"
+              className="custom-button-active"
+              shape="round"
+              expand="block"
+              href="/home"
+            >
+              Home
+            </IonButton>
+            <IonButton
+              type="button"
+              className="custom-button-active"
+              shape="round"
+              expand="block"
+              onClick={handleManageSubscription}
+            >
+              More
+            </IonButton>
           </IonCardContent>
         </IonCard>
       </IonContent>

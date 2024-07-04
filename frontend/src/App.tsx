@@ -14,6 +14,7 @@ import Signin from "./pages/Signin";
 import store from "./app/store";
 import Success from "./pages/Success";
 import Canceled from "./pages/Canceled";
+import Account from "./pages/Account";
 import { initializeUser } from "./features/auth/authSlice";
 
 /* Core CSS required for Ionic components to work properly */
@@ -60,6 +61,7 @@ const App: React.FC = () => (
             <Route path="/subscription" component={Subscription} exact={true} />
             <Route path="/success" component={Success} exact={true} />
             <Route path="/canceled" component={Canceled} exact={true} />
+            <Route path="/account" component={Account} />
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>

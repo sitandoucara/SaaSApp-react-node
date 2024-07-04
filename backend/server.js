@@ -23,19 +23,6 @@ function generateToken(user) {
   });
 }
 
-function authenticateToken(req, res, next) {
-  const token =
-    req.headers["authorization"] && req.headers["authorization"].split(" ")[1];
-  if (!token)
-    return res.status(401).json({ error: "Access denied, no token provided" });
-
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ error: "Invalid token" });
-    req.user = user;
-    next();
-  });
-}
-
 const transporter = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
@@ -86,6 +73,13 @@ app.post("/auth/signin", async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { email },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        stripeCustomerId: true,
+      },
     });
 
     if (!user) {

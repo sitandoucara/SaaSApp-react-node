@@ -41,3 +41,4 @@ customair_portail: (button : pour gerer son abonnement)
 listbooks10 (coupon)
 
 ----- add stripecustomerid
+//Dans mon getcheoutsession comment stoker le customer id de stripe dedans 
