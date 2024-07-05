@@ -3,11 +3,8 @@ import {
   IonPage,
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonContent,
-  IonList,
   IonItem,
-  IonLabel,
   IonInput,
   IonButton,
   IonIcon,
@@ -15,10 +12,25 @@ import {
   IonRow,
   IonCol,
   IonTextarea,
+  useIonToast,
 } from "@ionic/react";
 import { chevronBackSharp } from "ionicons/icons";
 import axios from "axios";
-//import "./Contact.css";
+import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+
+// Utiliser l'icône par défaut de Leaflet
+const markerIcon = new L.Icon({
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -29,6 +41,7 @@ const Contact: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<string | null>(null);
+  const [present] = useIonToast();
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -47,10 +60,19 @@ const Contact: React.FC = () => {
     try {
       await axios.post("http://localhost:3201/contact", formData);
       setFormData({ name: "", email: "", subject: "", message: "" });
+      presentToast("Message successfully sent!", "top");
     } catch (error) {
       setErrors("There was an error sending the message.");
       console.error(error);
     }
+  };
+
+  const presentToast = (message: string, position: "top") => {
+    present({
+      message: message,
+      duration: 2000,
+      position: position,
+    });
   };
 
   return (
@@ -96,55 +118,43 @@ const Contact: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <IonItem>
             <IonInput
-              label="name"
               name="name"
-              labelPlacement="floating"
-              fill="outline"
               placeholder="Enter name"
               value={formData.name}
               onIonChange={handleInputChange}
               required
-            ></IonInput>
+            />
           </IonItem>
 
           <IonItem>
             <IonInput
-              label="email"
               name="email"
               type="email"
-              labelPlacement="floating"
-              fill="outline"
               placeholder="Enter email"
               value={formData.email}
               onIonChange={handleInputChange}
               required
-            ></IonInput>
+            />
           </IonItem>
           <IonItem>
             <IonInput
-              label="subject"
               name="subject"
-              labelPlacement="floating"
-              fill="outline"
-              placeholder="subject"
+              placeholder="Enter subject"
               value={formData.subject}
               onIonChange={handleInputChange}
               required
-            ></IonInput>
+            />
           </IonItem>
           <IonItem>
             <IonTextarea
               name="message"
-              label="message"
-              labelPlacement="floating"
-              fill="outline"
-              placeholder="Enter text"
+              placeholder="Enter message"
               value={formData.message}
               onIonChange={handleInputChange}
               required
               rows={6}
               minlength={50}
-            ></IonTextarea>
+            />
           </IonItem>
           <IonButton
             type="submit"
@@ -163,7 +173,23 @@ const Contact: React.FC = () => {
         <p style={{ color: "#7b635a" }}>19 rue Yves Toudic 75010</p>
         <p style={{ color: "red" }}>01 42 41 97 76</p>
 
-        <div id="map" style={{ height: "300px", width: "100%" }}></div>
+        <div id="map" style={{ height: "300px", width: "100%" }}>
+          <MapContainer
+            center={[48.87096, 2.36352]}
+            zoom={15}
+            style={{ height: "100%", width: "100%" }}
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={[48.87096, 2.36352]} icon={markerIcon}>
+              <Popup>
+                Webstart Paris <br /> 19 rue Yves Toudic.
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </div>
       </IonContent>
     </IonPage>
   );

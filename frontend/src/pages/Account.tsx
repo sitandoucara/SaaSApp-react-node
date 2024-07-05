@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   IonPage,
   IonHeader,
@@ -12,21 +12,26 @@ import {
   IonButton,
   IonLabel,
   IonIcon,
+  IonInput,
   IonGrid,
   IonRow,
   IonCol,
-  IonAlert,
 } from "@ionic/react";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { RootState } from "../app/store";
-import { personCircleOutline, chevronBackSharp } from "ionicons/icons";
+import {
+  personCircleOutline,
+  chevronBackSharp,
+  createSharp,
+} from "ionicons/icons";
 import axios from "axios";
-import { clearUser } from "../features/auth/authSlice";
+import { setUser } from "../features/auth/authSlice";
 
 const Account: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
   const dispatch = useAppDispatch();
-  const [showAlert, setShowAlert] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const newNameRef = useRef<HTMLIonInputElement>(null);
 
   useEffect(() => {
     console.log("User in Account:", user);
@@ -64,18 +69,32 @@ const Account: React.FC = () => {
     }
   };
 
-  const handleDeleteAccount = async () => {
+  const handleNameUpdate = async () => {
+    const newName = newNameRef.current?.value as string;
+    if (!newName) return;
+
     try {
-      await axios.delete("http://localhost:3201/auth/delete-account", {
-        data: { userId: user.id },
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      dispatch(clearUser());
-      window.location.href = "/home";
+      console.log("Name before update:", newName);
+
+      const response = await axios.put(
+        "http://localhost:3201/auth/update-name",
+        { userId: user.id, newName },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Mettre à jour l'état local et Redux store
+      dispatch(
+        setUser({ user: response.data, token: localStorage.getItem("token")! })
+      );
+      setEditing(false);
+
+      console.log("Name after update:", response.data.name);
     } catch (error) {
-      console.error("Error deleting account:", error);
+      console.error("Error updating user name:", error);
     }
   };
 
@@ -124,7 +143,23 @@ const Account: React.FC = () => {
           <IonCardContent>
             <IonLabel>
               <p>
-                <strong>Name:</strong> {user.name}
+                <strong>Name:</strong>{" "}
+                {editing ? (
+                  <IonInput ref={newNameRef} value={user.name} />
+                ) : (
+                  <>
+                    {user.name}
+                    <IonIcon
+                      icon={createSharp}
+                      onClick={() => setEditing(true)}
+                      style={{
+                        marginLeft: "10px",
+                        cursor: "pointer",
+                        color: "#32221e",
+                      }}
+                    />
+                  </>
+                )}
               </p>
             </IonLabel>
             <IonLabel>
@@ -132,6 +167,17 @@ const Account: React.FC = () => {
                 <strong>Email:</strong> {user.email}
               </p>
             </IonLabel>
+            {editing && (
+              <IonButton
+                type="button"
+                className="custom-button-active"
+                shape="round"
+                expand="block"
+                onClick={handleNameUpdate}
+              >
+                Save
+              </IonButton>
+            )}
           </IonCardContent>
         </IonCard>
         <IonButton
@@ -139,7 +185,7 @@ const Account: React.FC = () => {
           className="custom-button-active"
           shape="round"
           expand="block"
-          onClick={() => setShowAlert(true)}
+          href="#"
         >
           Delete Account
         </IonButton>
@@ -154,25 +200,6 @@ const Account: React.FC = () => {
             Manage Subscription
           </IonButton>
         )}
-        <IonAlert
-          isOpen={showAlert}
-          header={"Delete Account"}
-          message={"Are you sure you want to delete your account?"}
-          buttons={[
-            {
-              text: "Cancel",
-              role: "cancel",
-              handler: () => {
-                console.log("Cancel clicked");
-                setShowAlert(false);
-              },
-            },
-            {
-              text: "Delete",
-              handler: handleDeleteAccount,
-            },
-          ]}
-        />
       </IonContent>
     </IonPage>
   );
