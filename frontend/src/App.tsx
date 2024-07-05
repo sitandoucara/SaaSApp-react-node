@@ -14,7 +14,6 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import store from "./app/store";
 import Success from "./pages/Success";
-import Canceled from "./pages/Canceled";
 import Account from "./pages/Account";
 import { initializeUser } from "./features/auth/authSlice";
 
@@ -62,7 +61,6 @@ const App: React.FC = () => (
             <Route path="/legal" component={Legal} exact={true} />
             <Route path="/subscription" component={Subscription} exact={true} />
             <Route path="/success" component={Success} exact={true} />
-            <Route path="/canceled" component={Canceled} exact={true} />
             <Route path="/account" component={Account} />
             <Route exact path="/">
               <Redirect to="/home" />

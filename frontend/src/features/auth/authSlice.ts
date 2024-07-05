@@ -38,8 +38,13 @@ const authSlice = createSlice({
       const token = localStorage.getItem("token");
       const user = localStorage.getItem("user");
       if (token && user) {
-        state.token = token;
-        state.user = JSON.parse(user);
+        try {
+          state.token = token;
+          state.user = JSON.parse(user);
+        } catch (error) {
+          console.error("Failed to parse user from localStorage", error);
+          localStorage.removeItem("user");
+        }
       }
     },
   },

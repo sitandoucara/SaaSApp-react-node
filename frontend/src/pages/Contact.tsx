@@ -16,11 +16,7 @@ import {
   IonCol,
   IonTextarea,
 } from "@ionic/react";
-import {
-  chevronBackSharp,
-  mailOutline,
-  personCircleOutline,
-} from "ionicons/icons";
+import { chevronBackSharp } from "ionicons/icons";
 import axios from "axios";
 //import "./Contact.css";
 

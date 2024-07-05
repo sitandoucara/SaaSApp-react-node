@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
   IonHeader,
@@ -15,15 +15,22 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonAlert,
 } from "@ionic/react";
-import { useAppSelector } from "../hooks";
+import { useAppSelector, useAppDispatch } from "../hooks";
 import { RootState } from "../app/store";
 import { personCircleOutline, chevronBackSharp } from "ionicons/icons";
 import axios from "axios";
+import { clearUser } from "../features/auth/authSlice";
 
 const Account: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
-  console.log("User in Account:", user);
+  const dispatch = useAppDispatch();
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    console.log("User in Account:", user);
+  }, [user]);
 
   if (!user) {
     return (
@@ -54,6 +61,21 @@ const Account: React.FC = () => {
       window.location.href = response.data.url;
     } catch (error) {
       console.error("Error creating billing portal session:", error);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      await axios.delete("http://localhost:3201/auth/delete-account", {
+        data: { userId: user.id },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      dispatch(clearUser());
+      window.location.href = "/home";
+    } catch (error) {
+      console.error("Error deleting account:", error);
     }
   };
 
@@ -117,7 +139,7 @@ const Account: React.FC = () => {
           className="custom-button-active"
           shape="round"
           expand="block"
-          href="#"
+          onClick={() => setShowAlert(true)}
         >
           Delete Account
         </IonButton>
@@ -132,6 +154,25 @@ const Account: React.FC = () => {
             Manage Subscription
           </IonButton>
         )}
+        <IonAlert
+          isOpen={showAlert}
+          header={"Delete Account"}
+          message={"Are you sure you want to delete your account?"}
+          buttons={[
+            {
+              text: "Cancel",
+              role: "cancel",
+              handler: () => {
+                console.log("Cancel clicked");
+                setShowAlert(false);
+              },
+            },
+            {
+              text: "Delete",
+              handler: handleDeleteAccount,
+            },
+          ]}
+        />
       </IonContent>
     </IonPage>
   );

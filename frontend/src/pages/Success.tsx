@@ -13,14 +13,12 @@ import {
   IonCardContent,
   IonIcon,
 } from "@ionic/react";
-//import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setUser } from "../features/auth/authSlice";
 import { checkmarkSharp } from "ionicons/icons";
 
 const Success: React.FC = () => {
-  //const history = useHistory();
   const [session, setSession] = useState<any>(null);
   const sessionId = new URLSearchParams(window.location.search).get(
     "session_id"
@@ -30,13 +28,31 @@ const Success: React.FC = () => {
 
   useEffect(() => {
     const fetchSession = async () => {
-      if (sessionId) {
+      if (sessionId && !session) {
         try {
           const response = await axios.get(
-            `http://localhost:3201/stripe/checkout-session?sessionId=${sessionId}`
+            `http://localhost:3201/stripe/checkout-session?sessionId=${sessionId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
           );
           setSession(response.data);
-          if (user) {
+
+          if (user && !user.stripeCustomerId) {
+            // Mise à jour du stripeCustomerId dans la base de do
+            await axios.post(
+              `http://localhost:3201/stripe/update-stripe-customer-id`,
+              { userId: user.id, stripeCustomerId: response.data.customer },
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+
+            // Mise à jour du store Redux
             dispatch(
               setUser({
                 user: { ...user, stripeCustomerId: response.data.customer },
@@ -52,7 +68,7 @@ const Success: React.FC = () => {
     };
 
     fetchSession();
-  }, [sessionId, dispatch, user]);
+  }, [sessionId, dispatch, user, session]);
 
   const handleManageSubscription = async () => {
     try {

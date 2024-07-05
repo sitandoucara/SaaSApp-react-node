@@ -23,7 +23,7 @@ import axios from "axios";
 const Subscription: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
 
-  const handleChooseClick = async () => {
+  const handleChooseClick = async (priceId: string) => {
     if (!user) {
       window.location.href = "/login";
       return;
@@ -32,7 +32,7 @@ const Subscription: React.FC = () => {
     try {
       const response = await axios.post(
         "http://localhost:3201/stripe/create-checkout-session",
-        { priceId: "price_1PVr2LLqME1LbpvO960nUIGE" },
+        { priceId },
         {
           headers: {
             "Content-Type": "application/json",
@@ -40,8 +40,6 @@ const Subscription: React.FC = () => {
           },
         }
       );
-
-      console.log("Checkout session response:", response.data);
 
       const { url } = response.data;
       if (url) {
@@ -105,7 +103,9 @@ const Subscription: React.FC = () => {
               className="custom-button-active"
               expand="block"
               shape="round"
-              onClick={handleChooseClick}
+              onClick={() =>
+                handleChooseClick("price_1PVr2LLqME1LbpvO960nUIGE")
+              }
             >
               Choose
             </IonButton>
@@ -117,7 +117,7 @@ const Subscription: React.FC = () => {
             <IonCardTitle>
               <span style={{ textDecoration: "line-through", color: "red" }}>
                 200€/month
-              </span>{" "}
+              </span>
               180€/month
             </IonCardTitle>
             <IonCardSubtitle>Family - Up to 4 People</IonCardSubtitle>
@@ -133,6 +133,9 @@ const Subscription: React.FC = () => {
               className="custom-button-active"
               shape="round"
               expand="block"
+              onClick={() =>
+                handleChooseClick("price_1PYmauLqME1LbpvOcL8RuJjJ")
+              }
             >
               Choose
             </IonButton>
@@ -144,7 +147,7 @@ const Subscription: React.FC = () => {
             <IonCardTitle>
               <span style={{ textDecoration: "line-through", color: "red" }}>
                 2400€/year
-              </span>{" "}
+              </span>
               2000€/year
             </IonCardTitle>
             <IonCardSubtitle>Premium - Unlimited Access</IonCardSubtitle>
@@ -161,6 +164,9 @@ const Subscription: React.FC = () => {
               className="custom-button-active"
               shape="round"
               expand="block"
+              onClick={() =>
+                handleChooseClick("price_1PYmdaLqME1LbpvOrfWVhmTI")
+              }
             >
               Choose
             </IonButton>

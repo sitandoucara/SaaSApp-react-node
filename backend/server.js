@@ -18,9 +18,7 @@ const passwordPattern =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 function generateToken(user) {
-  return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
 }
 
 const transporter = nodemailer.createTransport({
@@ -61,15 +59,6 @@ app.post("/auth/signup", async (req, res) => {
     res.status(201).json(newUser);
   } catch (error) {
     console.error("Error creating user:", error);
-    if (
-      error.code === "P2002" &&
-      error.meta &&
-      error.meta.target.includes("email")
-    ) {
-      return res
-        .status(400)
-        .json({ error: "Sorry! This email is already taken." });
-    }
     res
       .status(500)
       .json({ error: "An error occurred while creating the user" });
@@ -140,6 +129,21 @@ app.post("/contact", async (req, res) => {
     res
       .status(500)
       .json({ error: "An error occurred while sending the email" });
+  }
+});
+
+app.delete("/auth/delete-account", async (req, res) => {
+  const { userId } = req.body;
+  try {
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+    res.status(200).json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the account" });
   }
 });
 
