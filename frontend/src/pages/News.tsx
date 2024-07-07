@@ -16,13 +16,16 @@ import {
   IonTabBar,
   IonTabButton,
   IonLabel,
+  IonButton,
+  IonModal,
+  IonButtons,
 } from "@ionic/react";
 import {
   homeSharp,
   newspaperSharp,
-  bookmarkSharp,
   personSharp,
   arrowForwardSharp,
+  closeCircleSharp,
 } from "ionicons/icons";
 
 type Article = {
@@ -34,6 +37,8 @@ type Article = {
 
 const News: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -45,6 +50,17 @@ const News: React.FC = () => {
         console.error("There was an error fetching the articles!", error);
       });
   }, []);
+
+  const truncateContent = (content: string, length: number): string => {
+    return content.length > length
+      ? content.substring(0, length) + "..."
+      : content;
+  };
+
+  const handleOpenArticle = (article: Article) => {
+    setSelectedArticle(article);
+    setIsOpen(true);
+  };
 
   return (
     <IonPage>
@@ -63,13 +79,39 @@ const News: React.FC = () => {
                 {new Date(article.createdAt).toLocaleDateString()}
               </IonCardSubtitle>
             </IonCardHeader>
-            <IonCardContent>{article.content}</IonCardContent>
+            <IonCardContent>
+              {truncateContent(article.content, 100)}
+            </IonCardContent>
             <IonCardContent className="ion-text-end">
-              <IonIcon size="large" icon={arrowForwardSharp} />
+              <IonIcon
+                size="large"
+                icon={arrowForwardSharp}
+                onClick={() => handleOpenArticle(article)}
+              />
             </IonCardContent>
           </IonCard>
         ))}
       </IonContent>
+
+      <IonModal isOpen={isOpen}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>News</IonTitle>
+            <IonButtons slot="end">
+              <IonButton onClick={() => setIsOpen(false)}>
+                <IonIcon icon={closeCircleSharp} />
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          <h2>{selectedArticle?.title}</h2>
+          <h4>
+            {new Date(selectedArticle?.createdAt ?? "").toLocaleDateString()}
+          </h4>
+          <p>{selectedArticle?.content}</p>
+        </IonContent>
+      </IonModal>
 
       <IonFooter>
         <IonTabBar slot="bottom" className="footer-tab-bar">
@@ -84,14 +126,6 @@ const News: React.FC = () => {
           >
             <IonIcon icon={newspaperSharp} />
             <IonLabel>News</IonLabel>
-          </IonTabButton>
-          <IonTabButton
-            tab="favorites"
-            href="/favorites"
-            className="footer-tab-button"
-          >
-            <IonIcon icon={bookmarkSharp} />
-            <IonLabel>Favorites</IonLabel>
           </IonTabButton>
           <IonTabButton
             tab="profile"

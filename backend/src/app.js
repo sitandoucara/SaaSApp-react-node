@@ -19,10 +19,12 @@ const authRoutes = require("./routes/authRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const newsRoutes = require("./routes/newsRoutes");
 const stripeRoutes = require("./routes/stripeRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 app.use("/auth", authRoutes);
 app.use("/contact", contactRoutes);
 app.use("/news", newsRoutes);
 app.use("/stripe", stripeRoutes);
+app.use("/admin", adminRoutes);
 
 module.exports = app;

@@ -19,13 +19,13 @@ import {
 import {
   homeSharp,
   newspaperSharp,
-  bookmarkSharp,
   personSharp,
   personCircleSharp,
   pricetagSharp,
   informationCircleSharp,
   mailSharp,
   logOutSharp,
+  settingsSharp,
 } from "ionicons/icons";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { RootState } from "../app/store";
@@ -71,6 +71,20 @@ const Profile: React.FC = () => {
                       <IonIcon slot="start" size="large" icon={logOutSharp} />
                       <IonLabel>Logout</IonLabel>
                     </IonItem>
+                    {user.role === "admin" && (
+                      <IonItem
+                        button
+                        className="custom-ion-item"
+                        href="/dashboard"
+                      >
+                        <IonIcon
+                          slot="start"
+                          size="large"
+                          icon={settingsSharp}
+                        />
+                        <IonLabel>Dashboard</IonLabel>
+                      </IonItem>
+                    )}
                   </>
                 ) : (
                   <IonItem button className="custom-ion-item" href="/login">
@@ -117,22 +131,19 @@ const Profile: React.FC = () => {
             <IonIcon icon={homeSharp} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="news" href="/news" className="footer-tab-button">
+          <IonTabButton
+            tab="news"
+            href="/news"
+            className="footer-tab-button activated"
+          >
             <IonIcon icon={newspaperSharp} />
             <IonLabel>News</IonLabel>
           </IonTabButton>
-          <IonTabButton
-            tab="favorites"
-            href="/favorites"
-            className="footer-tab-button"
-          >
-            <IonIcon icon={bookmarkSharp} />
-            <IonLabel>Favorites</IonLabel>
-          </IonTabButton>
+
           <IonTabButton
             tab="profile"
             href="/profile"
-            className="footer-tab-button activated"
+            className="footer-tab-button"
           >
             <IonIcon icon={personSharp} />
             <IonLabel>Profile</IonLabel>

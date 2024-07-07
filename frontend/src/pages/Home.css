@@ -62,6 +62,7 @@ ion-button.custom-button-inactive {
 .flex {
   display: flex;
 }
+
 ion-col {
   text-align: end;
 }

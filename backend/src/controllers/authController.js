@@ -7,7 +7,10 @@ const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 function generateToken(user) {
-  return jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
+  return jwt.sign(
+    { id: user.id, email: user.email, role: user.role },
+    JWT_SECRET
+  );
 }
 
 exports.signup = async (req, res) => {
@@ -25,6 +28,14 @@ exports.signup = async (req, res) => {
   }
 
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ error: "Email already in use!" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await prisma.user.create({
@@ -32,9 +43,12 @@ exports.signup = async (req, res) => {
         email,
         name,
         password: hashedPassword,
+        role: "user",
       },
     });
-    res.status(201).json(newUser);
+
+    const token = generateToken(newUser);
+    res.status(201).json({ user: newUser, token });
   } catch (error) {
     console.error("Error creating user:", error);
     res
