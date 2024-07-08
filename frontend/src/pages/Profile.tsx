@@ -10,16 +10,11 @@ import {
   IonLabel,
   IonIcon,
   IonFooter,
-  IonTabBar,
-  IonTabButton,
   IonCol,
   IonGrid,
   IonRow,
 } from "@ionic/react";
 import {
-  homeSharp,
-  newspaperSharp,
-  personSharp,
   personCircleSharp,
   pricetagSharp,
   informationCircleSharp,
@@ -30,6 +25,7 @@ import {
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { RootState } from "../app/store";
 import { clearUser } from "../features/auth/authSlice";
+import Footer from "../components/Footer";
 
 const Profile: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
@@ -124,31 +120,8 @@ const Profile: React.FC = () => {
           </IonRow>
         </IonGrid>
       </IonContent>
-
       <IonFooter>
-        <IonTabBar slot="bottom" className="footer-tab-bar">
-          <IonTabButton tab="home" href="/home" className="footer-tab-button">
-            <IonIcon icon={homeSharp} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-          <IonTabButton
-            tab="news"
-            href="/news"
-            className="footer-tab-button activated"
-          >
-            <IonIcon icon={newspaperSharp} />
-            <IonLabel>News</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton
-            tab="profile"
-            href="/profile"
-            className="footer-tab-button"
-          >
-            <IonIcon icon={personSharp} />
-            <IonLabel>Profile</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
+        <Footer />
       </IonFooter>
     </IonPage>
   );

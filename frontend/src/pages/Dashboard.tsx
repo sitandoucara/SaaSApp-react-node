@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   IonPage,
   IonHeader,
@@ -26,6 +26,7 @@ import {
   addCircleSharp,
   createSharp,
   trashSharp,
+  closeCircleSharp,
 } from "ionicons/icons";
 import axios from "axios";
 import { useAppSelector } from "../hooks";
@@ -56,8 +57,14 @@ const Dashboard: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [newArticle, setNewArticle] = useState({ title: "", content: "" });
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState<{
+    isOpen: boolean;
+    articleId: string | null;
+  }>({ isOpen: false, articleId: null });
   const token = useAppSelector((state: RootState) => state.auth.token);
+
+  const titleRef = useRef<HTMLIonInputElement>(null);
+  const contentRef = useRef<HTMLIonTextareaElement>(null);
 
   useEffect(() => {
     axios
@@ -111,9 +118,22 @@ const Dashboard: React.FC = () => {
   };
 
   const handleArticleSave = () => {
+    const title = titleRef.current?.value as string;
+    const content = contentRef.current?.value as string;
+
+    if (title.trim() === "" || content.trim() === "") {
+      setShowToast({
+        isOpen: true,
+        message: "Title and content are required.",
+      });
+      return;
+    }
+
+    const articleData = { title, content };
+
     if (isEditMode && selectedArticle) {
       axios
-        .put(`http://localhost:3201/news/${selectedArticle.id}`, newArticle, {
+        .put(`http://localhost:3201/news/${selectedArticle.id}`, articleData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -122,7 +142,7 @@ const Dashboard: React.FC = () => {
           setArticles(
             articles.map((article) =>
               article.id === selectedArticle.id
-                ? { ...article, ...newArticle }
+                ? { ...article, ...articleData }
                 : article
             )
           );
@@ -139,7 +159,7 @@ const Dashboard: React.FC = () => {
         });
     } else {
       axios
-        .post("http://localhost:3201/news", newArticle, {
+        .post("http://localhost:3201/news", articleData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -174,6 +194,22 @@ const Dashboard: React.FC = () => {
         console.error("There was an error deleting the article!", error);
         setShowToast({ isOpen: true, message: "Failed to delete article" });
       });
+  };
+
+  const openNewArticleModal = () => {
+    setIsEditMode(false);
+    setNewArticle({ title: "", content: "" });
+    setIsModalOpen(true);
+  };
+
+  const openEditArticleModal = (article: Article) => {
+    setIsEditMode(true);
+    setSelectedArticle(article);
+    setNewArticle({
+      title: article.title,
+      content: article.content,
+    });
+    setIsModalOpen(true);
   };
 
   return (
@@ -250,89 +286,102 @@ const Dashboard: React.FC = () => {
           isOpen={showToast.isOpen}
           message={showToast.message}
           duration={2000}
+          position="top"
           onDidDismiss={() => setShowToast({ isOpen: false, message: "" })}
         />
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
-          All News{" "}
+        <h2
+          style={{
+            color: "#7b635a",
+            fontWeight: "bold",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          All News
           <IonIcon
             icon={addCircleSharp}
-            onClick={() => {
-              setIsEditMode(false);
-              setIsModalOpen(true);
-            }}
+            style={{ marginLeft: "10px", cursor: "pointer" }}
+            onClick={openNewArticleModal}
           />
         </h2>
         <IonList>
           {articles.map((article) => (
-            <IonItem key={article.id}>
-              <IonIcon
-                icon={createSharp}
-                onClick={() => {
-                  setIsEditMode(true);
-                  setSelectedArticle(article);
-                  setNewArticle({
-                    title: article.title,
-                    content: article.content,
-                  });
-                  setIsModalOpen(true);
-                }}
-              />
+            <IonItem key={article.id} className="news-item">
               <IonLabel>
                 <h2>{article.title}</h2>
                 <p>{article.content.substring(0, 50)}...</p>
               </IonLabel>
-              <IonIcon icon={trashSharp} onClick={() => setShowAlert(true)} />
-              <IonAlert
-                isOpen={showAlert}
-                onDidDismiss={() => setShowAlert(false)}
-                header={"Confirm Delete"}
-                message={"Are you sure you want to delete this article?"}
-                buttons={[
-                  {
-                    text: "Cancel",
-                    role: "cancel",
-                    cssClass: "secondary",
-                    handler: () => {
-                      setShowAlert(false);
-                    },
-                  },
-                  {
-                    text: "Delete",
-                    handler: () => {
-                      handleArticleDelete(article.id);
-                      setShowAlert(false);
-                    },
-                  },
-                ]}
+              <IonIcon
+                icon={createSharp}
+                style={{ marginRight: "10px", cursor: "pointer" }}
+                onClick={() => openEditArticleModal(article)}
+              />
+              <IonIcon
+                icon={trashSharp}
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  setShowAlert({ isOpen: true, articleId: article.id })
+                }
               />
             </IonItem>
           ))}
         </IonList>
+        <IonAlert
+          isOpen={showAlert.isOpen}
+          onDidDismiss={() => setShowAlert({ isOpen: false, articleId: null })}
+          header={"Confirm Delete"}
+          message={"Are you sure you want to delete this article?"}
+          buttons={[
+            {
+              text: "Cancel",
+              role: "cancel",
+              cssClass: "secondary",
+              handler: () => {
+                setShowAlert({ isOpen: false, articleId: null });
+              },
+            },
+            {
+              text: "Delete",
+              handler: () => {
+                if (showAlert.articleId) {
+                  handleArticleDelete(showAlert.articleId);
+                }
+                setShowAlert({ isOpen: false, articleId: null });
+              },
+            },
+          ]}
+        />
         <IonModal isOpen={isModalOpen}>
           <IonHeader>
             <IonToolbar>
               <IonTitle>{isEditMode ? "Edit Article" : "New Article"}</IonTitle>
               <IonButtons slot="end">
                 <IonButton onClick={() => setIsModalOpen(false)}>
-                  Close
+                  <IonIcon icon={closeCircleSharp} />
                 </IonButton>
               </IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonContent className="ion-padding">
             <IonInput
+              ref={titleRef}
               value={newArticle.title}
               placeholder="Title"
               onIonChange={(e) =>
                 setNewArticle({ ...newArticle, title: e.detail.value! })
               }
+              style={{ width: "100%", whiteSpace: "pre-wrap" }}
             />
             <IonTextarea
+              ref={contentRef}
               value={newArticle.content}
               placeholder="Content"
               onIonChange={(e) =>
                 setNewArticle({ ...newArticle, content: e.detail.value! })
               }
+              autoGrow={true}
+              rows={10}
+              style={{ width: "100%", minHeight: "200px" }}
             />
             <IonButton expand="block" onClick={handleArticleSave}>
               Save

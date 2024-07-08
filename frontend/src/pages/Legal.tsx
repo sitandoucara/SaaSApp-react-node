@@ -9,7 +9,6 @@ import {
   IonCol,
 } from "@ionic/react";
 import { chevronBackSharp } from "ionicons/icons";
-//import "./Contact.css";
 
 const Legal: React.FC = () => {
   return (

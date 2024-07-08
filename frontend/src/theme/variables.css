@@ -10,6 +10,12 @@ http://ionicframework.com/docs/theming/ */
   --ion-inactive-color: #b3a29b;
   --ion-icon-size: 2rem;
   --padding: 16px;
+  --color-selected: #007bff;
+
+  //--ion-tab-bar-background: #ffffff;
+  // --ion-tab-bar-border-color: #ccc;
+  --ion-tab-bar-color: #b3a29b;
+  --ion-tab-bar-color-selected: #32221e;
 }
 
 ion-item {
@@ -48,6 +54,8 @@ ion-item {
   --color: #fbf8f6;
 }
 
+/*----Dashbord---*/
+
 ion-checkbox {
   --size: 24px;
   --background-checked: #32221e;
@@ -75,4 +83,41 @@ ion-checkbox::part(container) {
 
 ion-checkbox {
   margin-top: 8px;
+}
+
+.news-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ion-input-custom {
+  width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.ion-textarea-custom {
+  width: 100%;
+  height: 300px;
+  resize: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.ion-padding {
+  padding: 20px;
+}
+
+ion-input,
+ion-textarea {
+  width: 100%;
+}
+
+ion-textarea {
+  --min-height: 200px;
+  --max-height: 400px;
+  resize: vertical;
 }

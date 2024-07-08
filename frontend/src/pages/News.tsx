@@ -13,20 +13,12 @@ import {
   IonCardContent,
   IonIcon,
   IonFooter,
-  IonTabBar,
-  IonTabButton,
-  IonLabel,
   IonButton,
   IonModal,
   IonButtons,
 } from "@ionic/react";
-import {
-  homeSharp,
-  newspaperSharp,
-  personSharp,
-  arrowForwardSharp,
-  closeCircleSharp,
-} from "ionicons/icons";
+import { arrowForwardSharp, closeCircleSharp } from "ionicons/icons";
+import Footer from "../components/Footer";
 
 type Article = {
   id: string;
@@ -112,30 +104,8 @@ const News: React.FC = () => {
           <p>{selectedArticle?.content}</p>
         </IonContent>
       </IonModal>
-
       <IonFooter>
-        <IonTabBar slot="bottom" className="footer-tab-bar">
-          <IonTabButton tab="home" href="/home" className="footer-tab-button">
-            <IonIcon icon={homeSharp} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-          <IonTabButton
-            tab="news"
-            href="/news"
-            className="footer-tab-button activated"
-          >
-            <IonIcon icon={newspaperSharp} />
-            <IonLabel>News</IonLabel>
-          </IonTabButton>
-          <IonTabButton
-            tab="profile"
-            href="/profile"
-            className="footer-tab-button"
-          >
-            <IonIcon icon={personSharp} />
-            <IonLabel>Profile</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
+        <Footer />
       </IonFooter>
     </IonPage>
   );

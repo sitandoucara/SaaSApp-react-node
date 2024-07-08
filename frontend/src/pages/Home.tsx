@@ -2,36 +2,26 @@ import React from "react";
 import {
   IonContent,
   IonPage,
-  IonIcon,
   IonSearchbar,
   IonFooter,
-  IonTabBar,
-  IonTabButton,
-  IonLabel,
-  IonButton,
   IonHeader,
   IonToolbar,
   IonGrid,
   IonRow,
   IonCol,
   IonImg,
+  IonButton,
+  IonLabel,
 } from "@ionic/react";
-import {
-  homeSharp,
-  newspaperSharp,
-  bookmarkSharp,
-  personSharp,
-} from "ionicons/icons";
 import { useAppSelector } from "../hooks";
 import { RootState } from "../app/store";
+import Footer from "../components/Footer";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Home.css";
 
 const Home: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
-
-  //console.log("Current user from Redux:", user);
 
   return (
     <IonPage>
@@ -132,28 +122,7 @@ const Home: React.FC = () => {
       </IonContent>
 
       <IonFooter>
-        <IonTabBar slot="bottom" className="footer-tab-bar">
-          <IonTabButton
-            tab="home"
-            href="/home"
-            className="footer-tab-button activated"
-          >
-            <IonIcon icon={homeSharp} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="news" href="/news" className="footer-tab-button">
-            <IonIcon icon={newspaperSharp} />
-            <IonLabel>News</IonLabel>
-          </IonTabButton>
-          <IonTabButton
-            tab="profile"
-            href="/profile"
-            className="footer-tab-button"
-          >
-            <IonIcon icon={personSharp} />
-            <IonLabel>Profile</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
+        <Footer />
       </IonFooter>
     </IonPage>
   );
