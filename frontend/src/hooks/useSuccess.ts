@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { setUser } from "../features/auth/authSlice";
 import { useHistory } from "react-router-dom";
 
+// Hook pour gérer la logique de la page de succès après le paiement
 const useSuccess = () => {
   const [session, setSession] = useState<any>(null);
   const sessionId = new URLSearchParams(window.location.search).get(
@@ -19,6 +20,8 @@ const useSuccess = () => {
       return;
     }
 
+    /*Récuperation les informations de la session de paiement Stripe &
+mis à jour l'ID du client Stripe du user si nécessaire*/
     const fetchSession = async () => {
       if (sessionId && !session) {
         try {
@@ -59,6 +62,7 @@ const useSuccess = () => {
     fetchSession();
   }, [sessionId, dispatch, user, session, history]);
 
+  // Gestion de la redirection vers le portail stripe
   const handleManageSubscription = async () => {
     try {
       const response = await axios.post(

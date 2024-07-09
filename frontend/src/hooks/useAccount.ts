@@ -5,6 +5,7 @@ import { setUser, clearUser } from "../features/auth/authSlice";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
+// Hook pour gérer le compte utilisateur
 const useAccount = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ const useAccount = () => {
     }
   }, [user, history]);
 
+  // Gestion de la mise à jour du nom du user
   const handleManageSubscription = async () => {
     if (!user) return;
 
@@ -44,6 +46,7 @@ const useAccount = () => {
     }
   };
 
+  // Gestion de la suppression de compte du user
   const handleNameUpdate = async () => {
     if (!user) return;
     const newName = newNameRef.current?.value as string;

@@ -7,8 +7,8 @@ import {
   IonButton,
   IonTextarea,
 } from "@ionic/react";
-import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import Header from "../components/Header";
 import useContact from "../hooks/useContact";
@@ -35,6 +35,7 @@ const Contact: React.FC = () => {
       <IonContent className="ion-padding">
         <h2 style={{ fontWeight: "bold", color: "#32221e" }}>Contact Us</h2>
         {errors && <p style={{ color: "red" }}>{errors}</p>}
+
         <form onSubmit={handleSubmit}>
           <IonItem>
             <IonInput
@@ -97,11 +98,12 @@ const Contact: React.FC = () => {
         <p style={{ color: "#7b635a" }}>19 rue Yves Toudic 75010</p>
         <p style={{ color: "red" }}>01 42 41 97 76</p>
 
+        {/* Carte intégrée avec Leaflet */}
         <div id="map" style={{ height: "300px", width: "100%" }}>
           <MapContainer
             center={[48.87096, 2.36352]}
             zoom={15}
-            style={{ height: "100%", width: "100%" }}
+            style={{ height: "300px", width: "100%" }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

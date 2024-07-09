@@ -38,6 +38,7 @@ const Initializer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Initialisation de l'utilisateur
     dispatch(initializeUser());
   }, [dispatch]);
 

@@ -16,6 +16,7 @@ const initialState: AuthState = {
   token: null,
 };
 
+// Slice pour gérer l'état d'authentification
 const authSlice = createSlice({
   name: "auth",
   initialState,

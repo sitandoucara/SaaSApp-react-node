@@ -5,6 +5,7 @@ import { RootState } from "../app/store";
 import { useHistory } from "react-router-dom";
 import { setUser } from "../features/auth/authSlice";
 
+// Définition des types pour les users et les articles
 type User = {
   id: string;
   name: string;
@@ -75,6 +76,7 @@ const useDashboard = () => {
       });
   }, [token, user, history]);
 
+  //Gère la modification du rôle d'un user
   const handleRoleChange = (userId: string, role: string) => {
     axios
       .put(
@@ -92,7 +94,7 @@ const useDashboard = () => {
         );
         setShowToast({ isOpen: true, message: "Role updated successfully" });
 
-        // Si le rôle de l'utilisateur connecté est modifié, mettre à jour le store Redux
+        // Si le rôle du user connecté est modifié, mettre à jour le store Redux
         if (user?.id === userId && token) {
           dispatch(setUser({ user: { ...user, role }, token }));
         }

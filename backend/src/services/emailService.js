@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 
+// Configuration du transporteur de mail avec Mailtrap
 const transporter = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
@@ -9,6 +10,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Fonction pour envoyer un email via le formulaire de contact
 exports.sendEmail = async ({ name, email, subject, message }) => {
   const mailOptions = {
     from: email,

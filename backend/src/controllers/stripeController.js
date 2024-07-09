@@ -2,11 +2,13 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-11-15",
 });
 
+//Création d'une session de paiement pour l'abonnement
 exports.createCheckoutSession = async (req, res) => {
   const domainURL = process.env.DOMAIN;
   const { priceId } = req.body;
 
   try {
+    // Création de la session de paiement Stripe
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [
@@ -30,6 +32,7 @@ exports.createCheckoutSession = async (req, res) => {
   }
 };
 
+// Récupération des informations de la session de paiement
 exports.getCheckoutSession = async (req, res) => {
   const { sessionId } = req.query;
   try {
@@ -44,6 +47,7 @@ exports.getCheckoutSession = async (req, res) => {
   }
 };
 
+// Création d'une session de portail de facturation Stripe
 exports.createBillingPortalSession = async (req, res) => {
   const { customerId } = req.body;
   const returnUrl = process.env.DOMAIN;

@@ -8,7 +8,7 @@ const {
   deleteNews,
 } = require("../controllers/newsController");
 
-// Routes for news
+// Routes pour les news
 router.get("/", getAllNews);
 router.get("/:id", getNewsById);
 router.post("/", createNews);

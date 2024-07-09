@@ -17,6 +17,7 @@ const Login: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    // Vérifie si un message toast est stocké dans le localStorage
     const message = localStorage.getItem("toastMessage");
     if (message) {
       setToastMessage(message);

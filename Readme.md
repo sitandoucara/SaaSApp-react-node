@@ -111,6 +111,13 @@ Pour démarrer avec ce projet, suivez ces étapes :
    ionic serve
    ```
 
+### Sources:
+
+- [**Redux**](https://react-redux.js.org/using-react-redux/usage-with-typescript)
+- [**Stripe API**](https://docs.stripe.com/api/checkout/sessions)
+- [**Prisma & MongoDB**](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/mongodb/creating-the-prisma-schema-typescript-mongodb)
+- [**Leaflet, Map Affichage**](https://medium.com/@timndichu/getting-started-with-leaflet-js-and-react-rendering-a-simple-map-ef9ee0498202)
+
 ### Conclusion
 
 Ce projet combine les technologies Node.js, Express, Prisma, MongoDB pour le backend, et Ionic/React pour le frontend, offrant une solution complète pour la gestion d'abonnements de livres audio. Il utilise des pratiques modernes de développement pour assurer une application maintenable et évolutive.

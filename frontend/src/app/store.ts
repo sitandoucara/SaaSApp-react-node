@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/authSlice";
 
+// Middleware pour le logging des actions
 const loggerMiddleware = (storeAPI: any) => (next: any) => (action: any) => {
   //console.log("Dispatching action:", action);
   let result = next(action);
@@ -8,6 +9,7 @@ const loggerMiddleware = (storeAPI: any) => (next: any) => (action: any) => {
   return result;
 };
 
+// Configuration du store Redux
 const store = configureStore({
   reducer: {
     auth: authReducer,
