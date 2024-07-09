@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import {
   IonPage,
   IonHeader,
@@ -22,196 +22,38 @@ import {
   IonTitle,
 } from "@ionic/react";
 import {
-  chevronBackSharp,
   addCircleSharp,
   createSharp,
   trashSharp,
   closeCircleSharp,
   arrowBackCircleSharp,
 } from "ionicons/icons";
-import axios from "axios";
-import { useAppSelector } from "../hooks";
-import { RootState } from "../app/store";
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-};
-
-type Article = {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: string;
-};
+import useDashboard from "../hooks/useDashboard";
 
 const Dashboard: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [showToast, setShowToast] = useState<{
-    isOpen: boolean;
-    message: string;
-  }>({ isOpen: false, message: "" });
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-  const [newArticle, setNewArticle] = useState({ title: "", content: "" });
-  const [showAlert, setShowAlert] = useState<{
-    isOpen: boolean;
-    articleId: string | null;
-  }>({ isOpen: false, articleId: null });
-  const token = useAppSelector((state: RootState) => state.auth.token);
-
-  const titleRef = useRef<HTMLIonInputElement>(null);
-  const contentRef = useRef<HTMLIonTextareaElement>(null);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3201/admin/users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the users!", error);
-      });
-
-    axios
-      .get("http://localhost:3201/news", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setArticles(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the articles!", error);
-      });
-  }, [token]);
-
-  const handleRoleChange = (userId: string, role: string) => {
-    axios
-      .put(
-        `http://localhost:3201/admin/users/${userId}/role`,
-        { role },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        setUsers(
-          users.map((user) => (user.id === userId ? { ...user, role } : user))
-        );
-        setShowToast({ isOpen: true, message: "Role updated successfully" });
-      })
-      .catch((error) => {
-        console.error("There was an error updating the role!", error);
-        setShowToast({ isOpen: true, message: "Failed to update role" });
-      });
-  };
-
-  const handleArticleSave = () => {
-    const title = titleRef.current?.value as string;
-    const content = contentRef.current?.value as string;
-
-    if (title.trim() === "" || content.trim() === "") {
-      setShowToast({
-        isOpen: true,
-        message: "Title and content are required.",
-      });
-      return;
-    }
-
-    const articleData = { title, content };
-
-    if (isEditMode && selectedArticle) {
-      axios
-        .put(`http://localhost:3201/news/${selectedArticle.id}`, articleData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          setArticles(
-            articles.map((article) =>
-              article.id === selectedArticle.id
-                ? { ...article, ...articleData }
-                : article
-            )
-          );
-          setShowToast({
-            isOpen: true,
-            message: "Article updated successfully",
-          });
-          setIsModalOpen(false);
-          setSelectedArticle(null);
-        })
-        .catch((error) => {
-          console.error("There was an error updating the article!", error);
-          setShowToast({ isOpen: true, message: "Failed to update article" });
-        });
-    } else {
-      axios
-        .post("http://localhost:3201/news", articleData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          setArticles([...articles, response.data]);
-          setShowToast({
-            isOpen: true,
-            message: "Article created successfully",
-          });
-          setIsModalOpen(false);
-        })
-        .catch((error) => {
-          console.error("There was an error creating the article!", error);
-          setShowToast({ isOpen: true, message: "Failed to create article" });
-        });
-    }
-  };
-
-  const handleArticleDelete = (articleId: string) => {
-    axios
-      .delete(`http://localhost:3201/news/${articleId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setArticles(articles.filter((article) => article.id !== articleId));
-        setShowToast({ isOpen: true, message: "Article deleted successfully" });
-      })
-      .catch((error) => {
-        console.error("There was an error deleting the article!", error);
-        setShowToast({ isOpen: true, message: "Failed to delete article" });
-      });
-  };
-
-  const openNewArticleModal = () => {
-    setIsEditMode(false);
-    setNewArticle({ title: "", content: "" });
-    setIsModalOpen(true);
-  };
-
-  const openEditArticleModal = (article: Article) => {
-    setIsEditMode(true);
-    setSelectedArticle(article);
-    setNewArticle({
-      title: article.title,
-      content: article.content,
-    });
-    setIsModalOpen(true);
-  };
+  const {
+    users,
+    articles,
+    showToast,
+    isModalOpen,
+    isEditMode,
+    selectedArticle,
+    newArticle,
+    showAlert,
+    titleRef,
+    contentRef,
+    setShowToast,
+    setIsModalOpen,
+    //setIsEditMode,
+    //setSelectedArticle,
+    setNewArticle,
+    setShowAlert,
+    handleRoleChange,
+    handleArticleSave,
+    handleArticleDelete,
+    openNewArticleModal,
+    openEditArticleModal,
+  } = useDashboard();
 
   return (
     <IonPage>

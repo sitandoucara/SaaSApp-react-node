@@ -1,8 +1,6 @@
 import React from "react";
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
   IonContent,
   IonCard,
   IonCardHeader,
@@ -10,21 +8,18 @@ import {
   IonCardSubtitle,
   IonCardContent,
   IonButton,
-  IonIcon,
-  IonGrid,
-  IonRow,
-  IonCol,
 } from "@ionic/react";
-import { arrowBackCircleSharp, chevronBackSharp } from "ionicons/icons";
 import { useAppSelector } from "../hooks";
 import { RootState } from "../app/store";
 import axios from "axios";
+import Header from "../components/Header";
 
 const Subscription: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
 
   const handleChooseClick = async (priceId: string) => {
     if (!user) {
+      localStorage.setItem("toastMessage", "You must be connected!");
       window.location.href = "/login";
       return;
     }
@@ -54,33 +49,7 @@ const Subscription: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader collapse="fade">
-        <IonToolbar>
-          <IonGrid fixed={true}>
-            <IonRow class="ion-justify-content-between">
-              <IonCol size="6" className="flex">
-                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
-                  <a href="/profile" style={{ color: "#32221e" }}>
-                    <IonIcon size="large" icon={arrowBackCircleSharp} />
-                  </a>
-                </h2>
-              </IonCol>
-
-              <IonCol size="6">
-                <h3
-                  style={{
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                    color: "#32221e",
-                  }}
-                >
-                  Subscription
-                </h3>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </IonToolbar>
-      </IonHeader>
+      <Header title="Subscription" backUrl="/profile" />
 
       <IonContent className="ion-padding">
         <IonCard className="font shadow_none" style={{ background: "#FBF8F5" }}>

@@ -1,46 +1,10 @@
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonContent,
-  IonIcon,
-  IonGrid,
-  IonRow,
-  IonCol,
-} from "@ionic/react";
-import { arrowBackCircleSharp, chevronBackSharp } from "ionicons/icons";
+import { IonPage, IonContent } from "@ionic/react";
+import Header from "../components/Header";
 
 const Legal: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader collapse="fade">
-        <IonToolbar>
-          <IonGrid fixed={true}>
-            <IonRow class="ion-justify-content-between">
-              <IonCol size="6" className="flex">
-                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
-                  <a href="/profile" style={{ color: "#32221e" }}>
-                    <IonIcon size="large" icon={arrowBackCircleSharp} />
-                  </a>
-                </h2>
-              </IonCol>
-
-              <IonCol size="6">
-                <h3
-                  style={{
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                    color: "#32221e",
-                  }}
-                >
-                  Legals
-                </h3>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </IonToolbar>
-      </IonHeader>
-
+      <Header title="Legals" backUrl="/profile" />
       <IonContent className="ion-padding">
         <h2 style={{ color: "#32221e", fontWeight: "bold" }}>Mentions Légal</h2>
         <p style={{ color: "#7b635a" }}>

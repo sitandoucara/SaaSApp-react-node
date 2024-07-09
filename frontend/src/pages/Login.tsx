@@ -8,10 +8,22 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonToast,
 } from "@ionic/react";
-import { chevronBackSharp } from "ionicons/icons";
+import { useEffect, useState } from "react";
+import { arrowBackCircleSharp } from "ionicons/icons";
 
 const Login: React.FC = () => {
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const message = localStorage.getItem("toastMessage");
+    if (message) {
+      setToastMessage(message);
+      localStorage.removeItem("toastMessage");
+    }
+  }, []);
+
   return (
     <IonPage>
       <IonHeader collapse="fade">
@@ -19,30 +31,23 @@ const Login: React.FC = () => {
           <IonGrid fixed={true}>
             <IonRow class="ion-justify-content-between">
               <IonCol size="6" className="flex">
-                <IonIcon size="large" icon={chevronBackSharp} />
-                <h2
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
-                  <a href="/profile" style={{ color: "#7b635a" }}>
-                    Back
+                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
+                  <a href="/profile" style={{ color: "#32221e" }}>
+                    <IonIcon size="large" icon={arrowBackCircleSharp} />
                   </a>
                 </h2>
               </IonCol>
 
               <IonCol size="6">
-                <p
+                <h3
                   style={{
-                    color: "#7b635a",
                     fontWeight: "bold",
                     margin: "0 10px",
+                    color: "#32221e",
                   }}
                 >
-                  Connexion
-                </p>
+                  Login
+                </h3>
               </IonCol>
             </IonRow>
           </IonGrid>
@@ -53,12 +58,12 @@ const Login: React.FC = () => {
         <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Welcome!</h2>
         <IonButton
           type="submit"
-          className="custom-button-active"
+          className="custom-button-active2"
           expand="block"
           shape="round"
           href="/signin"
         >
-          signin
+          Sign In
         </IonButton>
         <IonButton
           type="submit"
@@ -67,8 +72,15 @@ const Login: React.FC = () => {
           shape="round"
           href="/signup"
         >
-          signup
+          Sign Up
         </IonButton>
+        <IonToast
+          isOpen={toastMessage !== null}
+          message={toastMessage ?? ""}
+          duration={2000}
+          color="danger"
+          onDidDismiss={() => setToastMessage(null)}
+        />
       </IonContent>
     </IonPage>
   );

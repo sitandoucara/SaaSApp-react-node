@@ -9,7 +9,6 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonImg,
   IonButton,
   IonLabel,
   IonIcon,
@@ -19,6 +18,8 @@ import { RootState } from "../app/store";
 import Footer from "../components/Footer";
 import { notificationsCircleSharp, personCircleSharp } from "ionicons/icons";
 import "../theme/variables.css";
+import { popularBooks, detectiveBooks, renderBooks } from "../data/booksData";
+
 const Home: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
 
@@ -81,21 +82,7 @@ const Home: React.FC = () => {
             See all
           </IonLabel>
         </div>
-        <div className="book-grid">
-          <div className="book-item">
-            <IonImg src="book1.png" alt="Harry Potter" className="img"></IonImg>
-            <h2 style={{ color: "#7B635A", fontWeight: "bold" }}>
-              Harry Potter
-            </h2>
-            <p style={{ color: "#7B635A" }}>J.K. Rowling</p>
-          </div>
-
-          <div className="book-item">
-            <IonImg src="book4.png" alt="Harry Potter" className="img"></IonImg>
-            <h2 style={{ color: "#7B635A", fontWeight: "bold" }}>Moby Dick</h2>
-            <p style={{ color: "#7B635A" }}>Herman Melville</p>
-          </div>
-        </div>
+        <div className="book-grid">{renderBooks(popularBooks)}</div>
 
         <div className="book-category">
           <h2 style={{ color: "#32221e", fontWeight: "bold" }}>Detective</h2>
@@ -106,20 +93,7 @@ const Home: React.FC = () => {
             See all
           </IonLabel>
         </div>
-        <div className="book-grid">
-          <div className="book-item">
-            <IonImg src="book2.png" alt="Harry Potter"></IonImg>
-            <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
-              Harry Potter
-            </h2>
-            <p style={{ color: "#7b635a" }}>J.K. Rowling</p>
-          </div>
-          <div className="book-item">
-            <IonImg src="book3.png" alt="Harry Potter"></IonImg>
-            <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Moby Dick</h2>
-            <p style={{ color: "#7b635a" }}>Herman Melville</p>
-          </div>
-        </div>
+        <div className="book-grid">{renderBooks(detectiveBooks)}</div>
       </IonContent>
 
       <IonFooter>

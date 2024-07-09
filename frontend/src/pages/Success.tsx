@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   IonPage,
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonContent,
   IonButton,
   IonLabel,
@@ -11,118 +10,37 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCardContent,
-  IonIcon,
 } from "@ionic/react";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { setUser } from "../features/auth/authSlice";
-import { checkmarkSharp } from "ionicons/icons";
+import useSuccess from "../hooks/useSuccess";
 
 const Success: React.FC = () => {
-  const [session, setSession] = useState<any>(null);
-  const sessionId = new URLSearchParams(window.location.search).get(
-    "session_id"
-  );
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
-
-  useEffect(() => {
-    const fetchSession = async () => {
-      if (sessionId && !session) {
-        try {
-          const response = await axios.get(
-            `http://localhost:3201/stripe/checkout-session?sessionId=${sessionId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
-          setSession(response.data);
-
-          if (user && !user.stripeCustomerId) {
-            // Mise à jour du stripeCustomerId dans la base de do
-            await axios.post(
-              `http://localhost:3201/stripe/update-stripe-customer-id`,
-              { userId: user.id, stripeCustomerId: response.data.customer },
-              {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-              }
-            );
-
-            // Mise à jour du store Redux
-            dispatch(
-              setUser({
-                user: { ...user, stripeCustomerId: response.data.customer },
-                token: localStorage.getItem("token")!,
-              })
-            );
-          }
-          console.log("Checkout Session Response:", response.data);
-        } catch (error) {
-          console.error("Error fetching checkout session:", error);
-        }
-      }
-    };
-
-    fetchSession();
-  }, [sessionId, dispatch, user, session]);
-
-  const handleManageSubscription = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3201/stripe/create-billing-portal-session",
-        { customerId: user?.stripeCustomerId },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      window.location.href = response.data.url;
-    } catch (error) {
-      console.error("Error creating billing portal session:", error);
-    }
-  };
+  const { session, handleManageSubscription } = useSuccess();
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Payment Success</IonTitle>
-        </IonToolbar>
+      <IonHeader collapse="fade">
+        <IonToolbar></IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonCard>
+        <IonCard className="font shadow_none" style={{ background: "#FBF8F5" }}>
           <IonCardHeader>
-            <IonIcon icon={checkmarkSharp} size="large" />
             <IonCardTitle>Payment Succeeded!</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <IonLabel>
-              <p>
-                <strong>Amount Paid:</strong>{" "}
-                {(session?.amount_total / 100).toFixed(2)}{" "}
+              <h2>
+                <strong>Amount Paid:</strong>
+                {(session?.amount_total / 100).toFixed(2)}
                 {session?.currency.toUpperCase()}
-              </p>
+              </h2>
             </IonLabel>
             <IonLabel>
-              <p>
-                <strong>Date:</strong>{" "}
+              <h2>
+                <strong>Date:</strong>
                 {new Date(session?.created * 1000).toLocaleDateString()}
-              </p>
+              </h2>
             </IonLabel>
-            <IonButton
-              type="button"
-              className="custom-button-active"
-              shape="round"
-              expand="block"
-              href="/home"
-            >
-              Home
-            </IonButton>
+
             <IonButton
               type="button"
               className="custom-button-active"
@@ -131,6 +49,15 @@ const Success: React.FC = () => {
               onClick={handleManageSubscription}
             >
               More
+            </IonButton>
+            <IonButton
+              type="button"
+              className="custom-button-active2"
+              shape="round"
+              expand="block"
+              href="/home"
+            >
+              Home
             </IonButton>
           </IonCardContent>
         </IonCard>

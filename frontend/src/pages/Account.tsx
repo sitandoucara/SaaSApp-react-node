@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonCard,
   IonCardHeader,
@@ -13,146 +10,33 @@ import {
   IonLabel,
   IonIcon,
   IonInput,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonAlert,
   IonToast,
 } from "@ionic/react";
-import { useAppSelector, useAppDispatch } from "../hooks";
-import { RootState } from "../app/store";
-import {
-  createSharp,
-  arrowBackCircleSharp,
-  personCircleSharp,
-} from "ionicons/icons";
-import axios from "axios";
-import { setUser, clearUser } from "../features/auth/authSlice";
+import { createSharp, personCircleSharp } from "ionicons/icons";
+import Header from "../components/Header";
+import useAccount from "../hooks/useAccount";
 
 const Account: React.FC = () => {
-  const user = useAppSelector((state: RootState) => state.auth.user);
-  const dispatch = useAppDispatch();
-  const [editing, setEditing] = useState(false);
-  const newNameRef = useRef<HTMLIonInputElement>(null);
-  const [showAlert, setShowAlert] = useState(false);
-  const [showToast, setShowToast] = useState({
-    isOpen: false,
-    message: "",
-  });
+  const {
+    user,
+    editing,
+    newNameRef,
+    showAlert,
+    showToast,
+    setEditing,
+    setShowAlert,
+    setShowToast,
+    handleManageSubscription,
+    handleNameUpdate,
+    handleDeleteAccount,
+  } = useAccount();
 
-  useEffect(() => {
-    console.log("User in Account:", user);
-  }, [user]);
-
-  if (!user) {
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Account</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          <h2>Please log in to view your account details.</h2>
-        </IonContent>
-      </IonPage>
-    );
-  }
-
-  const handleManageSubscription = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3201/stripe/create-billing-portal-session",
-        { customerId: user.stripeCustomerId },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      window.location.href = response.data.url;
-    } catch (error) {
-      console.error("Error creating billing portal session:", error);
-    }
-  };
-
-  const handleNameUpdate = async () => {
-    const newName = newNameRef.current?.value as string;
-    if (!newName) return;
-
-    try {
-      console.log("Name before update:", newName);
-
-      const response = await axios.put(
-        "http://localhost:3201/auth/update-name",
-        { userId: user.id, newName },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      // Mettre à jour l'état local et Redux store
-      dispatch(
-        setUser({ user: response.data, token: localStorage.getItem("token")! })
-      );
-      setEditing(false);
-
-      console.log("Name after update:", response.data.name);
-    } catch (error) {
-      console.error("Error updating user name:", error);
-    }
-  };
-
-  const handleDeleteAccount = async () => {
-    try {
-      await axios.delete("http://localhost:3201/auth/delete-account", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        data: { userId: user.id },
-      });
-      dispatch(clearUser());
-      window.location.href = "/home";
-    } catch (error) {
-      console.error("Error deleting account:", error);
-      setShowToast({
-        isOpen: true,
-        message: "Failed to delete account",
-      });
-    }
-  };
+  if (!user) return null;
 
   return (
     <IonPage>
-      <IonHeader collapse="fade">
-        <IonToolbar>
-          <IonGrid fixed={true}>
-            <IonRow class="ion-justify-content-between">
-              <IonCol size="6" className="flex">
-                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
-                  <a href="/profile" style={{ color: "#32221e" }}>
-                    <IonIcon size="large" icon={arrowBackCircleSharp} />
-                  </a>
-                </h2>
-              </IonCol>
-
-              <IonCol size="6">
-                <h3
-                  style={{
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                    color: "#32221e",
-                  }}
-                >
-                  My Account
-                </h3>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </IonToolbar>
-      </IonHeader>
+      <Header title="My Account" backUrl="/profile" />
       <IonContent className="ion-padding">
         <IonCard className="font shadow_none" style={{ background: "#FBF8F5" }}>
           <IonCardHeader>

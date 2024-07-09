@@ -1,26 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
   IonContent,
   IonItem,
   IonInput,
   IonButton,
-  IonIcon,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonTextarea,
-  useIonToast,
 } from "@ionic/react";
-import { arrowBackCircleSharp, chevronBackSharp } from "ionicons/icons";
-import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import Header from "../components/Header";
+import useContact from "../hooks/useContact";
 
-// Utiliser l'icône par défaut de Leaflet
+// Utilisation de l'icône par défaut de Leaflet
 const markerIcon = new L.Icon({
   iconUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
@@ -33,77 +26,11 @@ const markerIcon = new L.Icon({
 });
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const [errors, setErrors] = useState<string | null>(null);
-  const [present] = useIonToast();
-
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setErrors(null);
-
-    if (formData.message.length < 50) {
-      setErrors("Message must be at least 50 characters long.");
-      return;
-    }
-
-    try {
-      await axios.post("http://localhost:3201/contact", formData);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      presentToast("Message successfully sent!", "top");
-    } catch (error) {
-      setErrors("There was an error sending the message.");
-      console.error(error);
-    }
-  };
-
-  const presentToast = (message: string, position: "top") => {
-    present({
-      message: message,
-      duration: 2000,
-      position: position,
-    });
-  };
+  const { formData, errors, handleInputChange, handleSubmit } = useContact();
 
   return (
     <IonPage>
-      <IonHeader collapse="fade">
-        <IonToolbar>
-          <IonGrid fixed={true}>
-            <IonRow class="ion-justify-content-between">
-              <IonCol size="6" className="flex">
-                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
-                  <a href="/profile" style={{ color: "#32221e" }}>
-                    <IonIcon size="large" icon={arrowBackCircleSharp} />
-                  </a>
-                </h2>
-              </IonCol>
-
-              <IonCol size="6">
-                <h3
-                  style={{
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                    color: "#32221e",
-                  }}
-                >
-                  Contact
-                </h3>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </IonToolbar>
-      </IonHeader>
+      <Header title="Contact" backUrl="/profile" />
 
       <IonContent className="ion-padding">
         <h2 style={{ fontWeight: "bold", color: "#32221e" }}>Contact Us</h2>

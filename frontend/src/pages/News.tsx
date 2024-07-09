@@ -18,6 +18,7 @@ import {
   IonButtons,
 } from "@ionic/react";
 import { arrowForwardSharp, closeCircleSharp } from "ionicons/icons";
+import { truncateContent } from "../utils/textUtils";
 import "../theme/variables.css";
 import Footer from "../components/Footer";
 
@@ -43,12 +44,6 @@ const News: React.FC = () => {
         console.error("There was an error fetching the articles!", error);
       });
   }, []);
-
-  const truncateContent = (content: string, length: number): string => {
-    return content.length > length
-      ? content.substring(0, length) + "..."
-      : content;
-  };
 
   const handleOpenArticle = (article: Article) => {
     setSelectedArticle(article);

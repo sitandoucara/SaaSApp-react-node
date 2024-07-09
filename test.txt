@@ -1,0 +1,33 @@
+**Admin= (ok!)
+  "email": "test@gmail.com",
+  "password": "Password123!",
+  "stripeCustomerId": oui
+
+**Admin2=
+ "email": "test22@gmail.com",
+  "password": "Password123!",
+  "stripeCustomerId": non
+
+--------
+
+**User1= (delete)
+ "email": "test222@gmail.com",
+  "password": "Password123!",
+  "stripeCustomerId": oui
+
+**User2=
+ "email": "testtt@gmail.com",
+  "password": "Password123!",
+  "stripeCustomerId": oui
+
+---------
+
+°°°Email°°°
+Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum in ex
+minus eaque enim.
+
+°°Promo
+listbooks10 (coupon)
+------
+Docker:
+***https://dv23doucara.mjm01.fr/auth/signin

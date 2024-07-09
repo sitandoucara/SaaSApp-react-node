@@ -1,19 +1,13 @@
 import React, { useRef, useState } from "react";
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
   IonContent,
   IonItem,
   IonInput,
   IonButton,
-  IonIcon,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonInputPasswordToggle,
 } from "@ionic/react";
-import { arrowBackCircleSharp } from "ionicons/icons";
+import Header from "../components/Header";
 import axios from "axios";
 
 const Signup: React.FC = () => {
@@ -54,28 +48,9 @@ const Signup: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader collapse="fade">
-        <IonToolbar>
-          <IonGrid fixed={true}>
-            <IonRow class="ion-justify-content-between">
-              <IonCol size="6" className="flex">
-                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
-                  <a href="/profile" style={{ color: "#7b635a" }}>
-                    <IonIcon size="large" icon={arrowBackCircleSharp} />
-                  </a>
-                </h2>
-              </IonCol>
-
-              <IonCol size="6">
-                <h3 style={{ fontWeight: "bold", margin: "0 10px" }}>Signup</h3>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </IonToolbar>
-      </IonHeader>
-
+      <Header title="Signup" backUrl="/login" />
       <IonContent className="ion-padding">
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Inscription</h2>
+        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Signup</h2>
         {errors && <p style={{ color: "red" }}>{errors}</p>}
         <form onSubmit={handleSubmit}>
           <IonItem>
@@ -88,6 +63,7 @@ const Signup: React.FC = () => {
               fill="outline"
               placeholder="Enter name"
               required
+              className="font"
             ></IonInput>
           </IonItem>
           <IonItem>
@@ -100,6 +76,7 @@ const Signup: React.FC = () => {
               fill="outline"
               placeholder="Enter email"
               required
+              className="font"
             ></IonInput>
           </IonItem>
           <IonItem>
@@ -112,6 +89,7 @@ const Signup: React.FC = () => {
               fill="outline"
               placeholder="Enter password"
               required
+              className="font"
             >
               <IonInputPasswordToggle slot="end"></IonInputPasswordToggle>
             </IonInput>
@@ -128,7 +106,10 @@ const Signup: React.FC = () => {
         </form>
 
         <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
-          Déjà un compte ? <a href="/signin">Se connecter</a>
+          Déjà un compte ?{" "}
+          <a href="/signin" style={{ color: "#32221e" }}>
+            Se connecter
+          </a>
         </h2>
       </IonContent>
     </IonPage>

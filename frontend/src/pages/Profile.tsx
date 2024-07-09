@@ -18,7 +18,6 @@ import {
   pricetagSharp,
   informationCircleSharp,
   mailSharp,
-  logOutSharp,
   settingsSharp,
 } from "ionicons/icons";
 import { useAppSelector, useAppDispatch } from "../hooks";
