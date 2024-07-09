@@ -16,22 +16,29 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonAlert,
+  IonToast,
 } from "@ionic/react";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { RootState } from "../app/store";
 import {
-  personCircleOutline,
-  chevronBackSharp,
   createSharp,
+  arrowBackCircleSharp,
+  personCircleSharp,
 } from "ionicons/icons";
 import axios from "axios";
-import { setUser } from "../features/auth/authSlice";
+import { setUser, clearUser } from "../features/auth/authSlice";
 
 const Account: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
   const dispatch = useAppDispatch();
   const [editing, setEditing] = useState(false);
   const newNameRef = useRef<HTMLIonInputElement>(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showToast, setShowToast] = useState({
+    isOpen: false,
+    message: "",
+  });
 
   useEffect(() => {
     console.log("User in Account:", user);
@@ -98,6 +105,25 @@ const Account: React.FC = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      await axios.delete("http://localhost:3201/auth/delete-account", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        data: { userId: user.id },
+      });
+      dispatch(clearUser());
+      window.location.href = "/home";
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      setShowToast({
+        isOpen: true,
+        message: "Failed to delete account",
+      });
+    }
+  };
+
   return (
     <IonPage>
       <IonHeader collapse="fade">
@@ -105,47 +131,47 @@ const Account: React.FC = () => {
           <IonGrid fixed={true}>
             <IonRow class="ion-justify-content-between">
               <IonCol size="6" className="flex">
-                <IonIcon size="large" icon={chevronBackSharp} />
-                <h2
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
-                  <a href="/profile" style={{ color: "#7b635a" }}>
-                    Back
+                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
+                  <a href="/profile" style={{ color: "#32221e" }}>
+                    <IonIcon size="large" icon={arrowBackCircleSharp} />
                   </a>
                 </h2>
               </IonCol>
 
               <IonCol size="6">
-                <p
+                <h3
                   style={{
-                    color: "#7b635a",
                     fontWeight: "bold",
                     margin: "0 10px",
+                    color: "#32221e",
                   }}
                 >
                   My Account
-                </p>
+                </h3>
               </IonCol>
             </IonRow>
           </IonGrid>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonCard>
+        <IonCard className="font shadow_none" style={{ background: "#FBF8F5" }}>
           <IonCardHeader>
-            <IonIcon icon={personCircleOutline} size="large" />
-            <IonCardTitle>Account Details</IonCardTitle>
+            <div className="flex" style={{ color: "#7b635a" }}>
+              <IonIcon icon={personCircleSharp} size="large" />
+              <IonCardTitle>Account Details</IonCardTitle>
+            </div>
           </IonCardHeader>
           <IonCardContent>
             <IonLabel>
-              <p>
+              <h2>
                 <strong>Name:</strong>{" "}
                 {editing ? (
-                  <IonInput ref={newNameRef} value={user.name} />
+                  <IonInput
+                    ref={newNameRef}
+                    value={user.name}
+                    className="font"
+                    style={{ color: "#7b635a" }}
+                  />
                 ) : (
                   <>
                     {user.name}
@@ -160,12 +186,12 @@ const Account: React.FC = () => {
                     />
                   </>
                 )}
-              </p>
+              </h2>
             </IonLabel>
             <IonLabel>
-              <p>
+              <h2>
                 <strong>Email:</strong> {user.email}
-              </p>
+              </h2>
             </IonLabel>
             {editing && (
               <IonButton
@@ -174,21 +200,13 @@ const Account: React.FC = () => {
                 shape="round"
                 expand="block"
                 onClick={handleNameUpdate}
+                style={{ margin: "5px 0px" }}
               >
                 Save
               </IonButton>
             )}
           </IonCardContent>
         </IonCard>
-        <IonButton
-          type="button"
-          className="custom-button-active"
-          shape="round"
-          expand="block"
-          href="#"
-        >
-          Delete Account
-        </IonButton>
         {user.stripeCustomerId && (
           <IonButton
             type="button"
@@ -200,6 +218,46 @@ const Account: React.FC = () => {
             Manage Subscription
           </IonButton>
         )}
+        <IonButton
+          type="button"
+          className="custom-button-active2"
+          shape="round"
+          expand="block"
+          onClick={() => setShowAlert(true)}
+        >
+          Delete Account
+        </IonButton>
+        <IonAlert
+          className="font"
+          isOpen={showAlert}
+          onDidDismiss={() => setShowAlert(false)}
+          header={"Confirm Delete"}
+          message={"Are you sure you want to delete your account?"}
+          buttons={[
+            {
+              text: "Cancel",
+              role: "cancel",
+              cssClass: "secondary",
+              handler: () => {
+                setShowAlert(false);
+              },
+            },
+            {
+              text: "Delete",
+              cssClass: "danger",
+              handler: () => {
+                handleDeleteAccount();
+                setShowAlert(false);
+              },
+            },
+          ]}
+        />
+        <IonToast
+          isOpen={showToast.isOpen}
+          message={showToast.message}
+          duration={2000}
+          onDidDismiss={() => setShowToast({ isOpen: false, message: "" })}
+        />
       </IonContent>
     </IonPage>
   );

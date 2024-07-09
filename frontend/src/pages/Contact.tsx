@@ -14,7 +14,7 @@ import {
   IonTextarea,
   useIonToast,
 } from "@ionic/react";
-import { chevronBackSharp } from "ionicons/icons";
+import { arrowBackCircleSharp, chevronBackSharp } from "ionicons/icons";
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -82,30 +82,23 @@ const Contact: React.FC = () => {
           <IonGrid fixed={true}>
             <IonRow class="ion-justify-content-between">
               <IonCol size="6" className="flex">
-                <IonIcon size="large" icon={chevronBackSharp} />
-                <h2
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
-                  <a href="/profile" style={{ color: "#7b635a" }}>
-                    Back
+                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
+                  <a href="/profile" style={{ color: "#32221e" }}>
+                    <IonIcon size="large" icon={arrowBackCircleSharp} />
                   </a>
                 </h2>
               </IonCol>
 
               <IonCol size="6">
-                <p
+                <h3
                   style={{
-                    color: "#7b635a",
                     fontWeight: "bold",
                     margin: "0 10px",
+                    color: "#32221e",
                   }}
                 >
-                  Contacts
-                </p>
+                  Contact
+                </h3>
               </IonCol>
             </IonRow>
           </IonGrid>
@@ -113,7 +106,7 @@ const Contact: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Contact Us</h2>
+        <h2 style={{ fontWeight: "bold", color: "#32221e" }}>Contact Us</h2>
         {errors && <p style={{ color: "red" }}>{errors}</p>}
         <form onSubmit={handleSubmit}>
           <IonItem>
@@ -123,6 +116,7 @@ const Contact: React.FC = () => {
               value={formData.name}
               onIonChange={handleInputChange}
               required
+              className="font"
             />
           </IonItem>
 
@@ -134,6 +128,7 @@ const Contact: React.FC = () => {
               value={formData.email}
               onIonChange={handleInputChange}
               required
+              className="font"
             />
           </IonItem>
           <IonItem>
@@ -143,6 +138,7 @@ const Contact: React.FC = () => {
               value={formData.subject}
               onIonChange={handleInputChange}
               required
+              className="font"
             />
           </IonItem>
           <IonItem>
@@ -154,6 +150,7 @@ const Contact: React.FC = () => {
               required
               rows={6}
               minlength={50}
+              className="font"
             />
           </IonItem>
           <IonButton
@@ -166,10 +163,10 @@ const Contact: React.FC = () => {
           </IonButton>
         </form>
 
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
+        <h2 style={{ fontWeight: "bold", color: "#32221e" }}>
           Where to find us?
         </h2>
-        <h3 style={{ color: "#7b635a", fontWeight: "bold" }}>Ecole Webstart</h3>
+        <h4 style={{ color: "#7b635a", fontWeight: "bold" }}>Ecole Webstart</h4>
         <p style={{ color: "#7b635a" }}>19 rue Yves Toudic 75010</p>
         <p style={{ color: "red" }}>01 42 41 97 76</p>
 

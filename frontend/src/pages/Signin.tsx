@@ -13,7 +13,7 @@ import {
   IonCol,
   IonInputPasswordToggle,
 } from "@ionic/react";
-import { chevronBackSharp } from "ionicons/icons";
+import { arrowBackCircleSharp, chevronBackSharp } from "ionicons/icons";
 import axios from "axios";
 import { useAppDispatch } from "../hooks";
 import { setUser } from "../features/auth/authSlice";
@@ -59,29 +59,15 @@ const Signin: React.FC = () => {
           <IonGrid fixed={true}>
             <IonRow class="ion-justify-content-between">
               <IonCol size="6" className="flex">
-                <IonIcon size="large" icon={chevronBackSharp} />
-                <h2
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
+                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
                   <a href="/profile" style={{ color: "#7b635a" }}>
-                    Back
+                    <IonIcon size="large" icon={arrowBackCircleSharp} />
                   </a>
                 </h2>
               </IonCol>
+
               <IonCol size="6">
-                <p
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
-                  Connexion
-                </p>
+                <h3 style={{ fontWeight: "bold", margin: "0 10px" }}>Signin</h3>
               </IonCol>
             </IonRow>
           </IonGrid>

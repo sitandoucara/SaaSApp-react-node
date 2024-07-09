@@ -15,7 +15,7 @@ import {
   IonRow,
   IonCol,
 } from "@ionic/react";
-import { chevronBackSharp } from "ionicons/icons";
+import { arrowBackCircleSharp, chevronBackSharp } from "ionicons/icons";
 import { useAppSelector } from "../hooks";
 import { RootState } from "../app/store";
 import axios from "axios";
@@ -59,30 +59,23 @@ const Subscription: React.FC = () => {
           <IonGrid fixed={true}>
             <IonRow class="ion-justify-content-between">
               <IonCol size="6" className="flex">
-                <IonIcon size="large" icon={chevronBackSharp} />
-                <h2
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
-                  <a href="/profile" style={{ color: "#7b635a" }}>
-                    Back
+                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
+                  <a href="/profile" style={{ color: "#32221e" }}>
+                    <IonIcon size="large" icon={arrowBackCircleSharp} />
                   </a>
                 </h2>
               </IonCol>
 
               <IonCol size="6">
-                <p
+                <h3
                   style={{
-                    color: "#7b635a",
                     fontWeight: "bold",
                     margin: "0 10px",
+                    color: "#32221e",
                   }}
                 >
-                  Subscriptions
-                </p>
+                  Subscription
+                </h3>
               </IonCol>
             </IonRow>
           </IonGrid>
@@ -90,17 +83,19 @@ const Subscription: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <IonCard>
+        <IonCard className="font shadow_none" style={{ background: "#FBF8F5" }}>
           <IonCardHeader>
             <IonCardTitle>50€/week</IonCardTitle>
-            <IonCardSubtitle>Solo - One Person</IonCardSubtitle>
+            <IonCardSubtitle style={{ color: "#32221e", fontWeight: "bold" }}>
+              Solo - One Person
+            </IonCardSubtitle>
           </IonCardHeader>
-          <IonCardContent>
-            <p>°Access to all audio books.</p>
-            <p>°No ads.</p>
+          <IonCardContent style={{ color: "#32221e", fontWeight: "bold" }}>
+            <h3>°Access to all audio books.</h3>
+            <h3>°No ads.</h3>
             <IonButton
               type="button"
-              className="custom-button-active"
+              className="custom-button-active2"
               expand="block"
               shape="round"
               onClick={() =>
@@ -112,17 +107,22 @@ const Subscription: React.FC = () => {
           </IonCardContent>
         </IonCard>
 
-        <IonCard>
+        <IonCard className="font shadow_none" style={{ background: "#FBF8F5" }}>
           <IonCardHeader>
             <IonCardTitle>
-              <span style={{ textDecoration: "line-through", color: "red" }}>
+              <span
+                style={{ textDecoration: "line-through", color: "#EC3E43" }}
+              >
                 200€/month
               </span>
+              <br />
               180€/month
             </IonCardTitle>
-            <IonCardSubtitle>Family - Up to 4 People</IonCardSubtitle>
+            <IonCardSubtitle style={{ color: "#32221e", fontWeight: "bold" }}>
+              Family - Up to 4 People
+            </IonCardSubtitle>
           </IonCardHeader>
-          <IonCardContent>
+          <IonCardContent style={{ color: "#32221e", fontWeight: "bold" }}>
             <p>°Access to all audio books.</p>
             <p>°No ads.</p>
             <p>°Offline listening.</p>
@@ -130,7 +130,7 @@ const Subscription: React.FC = () => {
 
             <IonButton
               type="submit"
-              className="custom-button-active"
+              className="custom-button-active2"
               shape="round"
               expand="block"
               onClick={() =>
@@ -142,17 +142,22 @@ const Subscription: React.FC = () => {
           </IonCardContent>
         </IonCard>
 
-        <IonCard>
+        <IonCard className="font shadow_none" style={{ background: "#FBF8F5" }}>
           <IonCardHeader>
             <IonCardTitle>
-              <span style={{ textDecoration: "line-through", color: "red" }}>
+              <span
+                style={{ textDecoration: "line-through", color: "#EC3E43" }}
+              >
                 2400€/year
               </span>
+              <br />
               2000€/year
             </IonCardTitle>
-            <IonCardSubtitle>Premium - Unlimited Access</IonCardSubtitle>
+            <IonCardSubtitle style={{ color: "#32221e", fontWeight: "bold" }}>
+              Premium - Unlimited Access
+            </IonCardSubtitle>
           </IonCardHeader>
-          <IonCardContent>
+          <IonCardContent style={{ color: "#32221e", fontWeight: "bold" }}>
             <p>°Access to all audio books.</p>
             <p>°No ads.</p>
             <p>°Offline listening.</p>
@@ -161,7 +166,7 @@ const Subscription: React.FC = () => {
 
             <IonButton
               type="submit"
-              className="custom-button-active"
+              className="custom-button-active2"
               shape="round"
               expand="block"
               onClick={() =>

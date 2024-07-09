@@ -27,6 +27,7 @@ import {
   createSharp,
   trashSharp,
   closeCircleSharp,
+  arrowBackCircleSharp,
 } from "ionicons/icons";
 import axios from "axios";
 import { useAppSelector } from "../hooks";
@@ -216,32 +217,20 @@ const Dashboard: React.FC = () => {
     <IonPage>
       <IonHeader collapse="fade">
         <IonToolbar>
-          <IonGrid fixed={true}>
+          <IonGrid fixed={true} style={{ color: "#32221e" }}>
             <IonRow class="ion-justify-content-between">
               <IonCol size="6" className="flex">
-                <IonIcon size="large" icon={chevronBackSharp} />
-                <h2
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
-                  <a href="/profile" style={{ color: "#7b635a" }}>
-                    Back
+                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
+                  <a href="/profile" style={{ color: "#32221e" }}>
+                    <IonIcon size="large" icon={arrowBackCircleSharp} />
                   </a>
                 </h2>
               </IonCol>
+
               <IonCol size="6">
-                <p
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
+                <h3 style={{ fontWeight: "bold", margin: "0 10px" }}>
                   Dashboard
-                </p>
+                </h3>
               </IonCol>
             </IonRow>
           </IonGrid>
@@ -254,14 +243,14 @@ const Dashboard: React.FC = () => {
           {users.map((user) => (
             <IonItem key={user.id}>
               <IonLabel>
-                <h2>{user.name}</h2>
-                <p>{user.email}</p>
+                <h2 style={{ color: "#32221e" }}>{user.name}</h2>
+                <p style={{ color: "#7b635a" }}>{user.email}</p>
               </IonLabel>
               <IonGrid>
                 <IonRow>
                   <IonCol size="6" className="ion-text-center role-column">
                     <div className="role-container">
-                      <IonLabel>User</IonLabel>
+                      <IonLabel className="font">User</IonLabel>
                       <IonCheckbox
                         checked={user.role === "user"}
                         onIonChange={() => handleRoleChange(user.id, "user")}
@@ -270,7 +259,7 @@ const Dashboard: React.FC = () => {
                   </IonCol>
                   <IonCol size="6" className="ion-text-center role-column">
                     <div className="role-container">
-                      <IonLabel>Admin</IonLabel>
+                      <IonLabel className="font">Admin</IonLabel>
                       <IonCheckbox
                         checked={user.role === "admin"}
                         onIonChange={() => handleRoleChange(user.id, "admin")}
@@ -311,14 +300,19 @@ const Dashboard: React.FC = () => {
                 <h2>{article.title}</h2>
                 <p>{article.content.substring(0, 50)}...</p>
               </IonLabel>
+
               <IonIcon
                 icon={createSharp}
-                style={{ marginRight: "10px", cursor: "pointer" }}
+                style={{
+                  marginRight: "10px",
+                  cursor: "pointer",
+                  color: "#32221e",
+                }}
                 onClick={() => openEditArticleModal(article)}
               />
               <IonIcon
                 icon={trashSharp}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", color: "#EC3E43" }}
                 onClick={() =>
                   setShowAlert({ isOpen: true, articleId: article.id })
                 }
@@ -352,12 +346,17 @@ const Dashboard: React.FC = () => {
           ]}
         />
         <IonModal isOpen={isModalOpen}>
-          <IonHeader>
+          <IonHeader collapse="fade">
             <IonToolbar>
-              <IonTitle>{isEditMode ? "Edit Article" : "New Article"}</IonTitle>
+              <IonTitle className="font">
+                {isEditMode ? "Edit Article" : "New Article"}
+              </IonTitle>
               <IonButtons slot="end">
                 <IonButton onClick={() => setIsModalOpen(false)}>
-                  <IonIcon icon={closeCircleSharp} />
+                  <IonIcon
+                    style={{ color: "#32221e" }}
+                    icon={closeCircleSharp}
+                  />
                 </IonButton>
               </IonButtons>
             </IonToolbar>
@@ -370,7 +369,12 @@ const Dashboard: React.FC = () => {
               onIonChange={(e) =>
                 setNewArticle({ ...newArticle, title: e.detail.value! })
               }
-              style={{ width: "100%", whiteSpace: "pre-wrap" }}
+              style={{
+                width: "100%",
+                whiteSpace: "pre-wrap",
+                color: "#32221e",
+              }}
+              className="font"
             />
             <IonTextarea
               ref={contentRef}
@@ -382,8 +386,13 @@ const Dashboard: React.FC = () => {
               autoGrow={true}
               rows={10}
               style={{ width: "100%", minHeight: "200px" }}
+              className="font"
             />
-            <IonButton expand="block" onClick={handleArticleSave}>
+            <IonButton
+              expand="block"
+              onClick={handleArticleSave}
+              className="custom-button-active"
+            >
               Save
             </IonButton>
           </IonContent>

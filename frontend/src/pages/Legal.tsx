@@ -8,7 +8,7 @@ import {
   IonRow,
   IonCol,
 } from "@ionic/react";
-import { chevronBackSharp } from "ionicons/icons";
+import { arrowBackCircleSharp, chevronBackSharp } from "ionicons/icons";
 
 const Legal: React.FC = () => {
   return (
@@ -18,30 +18,23 @@ const Legal: React.FC = () => {
           <IonGrid fixed={true}>
             <IonRow class="ion-justify-content-between">
               <IonCol size="6" className="flex">
-                <IonIcon size="large" icon={chevronBackSharp} />
-                <h2
-                  style={{
-                    color: "#7b635a",
-                    fontWeight: "bold",
-                    margin: "0 10px",
-                  }}
-                >
-                  <a href="/profile" style={{ color: "#7b635a" }}>
-                    Back
+                <h2 style={{ fontWeight: "bold", margin: "0 10px" }}>
+                  <a href="/profile" style={{ color: "#32221e" }}>
+                    <IonIcon size="large" icon={arrowBackCircleSharp} />
                   </a>
                 </h2>
               </IonCol>
 
               <IonCol size="6">
-                <p
+                <h3
                   style={{
-                    color: "#7b635a",
                     fontWeight: "bold",
                     margin: "0 10px",
+                    color: "#32221e",
                   }}
                 >
                   Legals
-                </p>
+                </h3>
               </IonCol>
             </IonRow>
           </IonGrid>
@@ -49,13 +42,13 @@ const Legal: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Mentions Légal</h2>
+        <h2 style={{ color: "#32221e", fontWeight: "bold" }}>Mentions Légal</h2>
         <p style={{ color: "#7b635a" }}>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque,
           asperiores.
         </p>
 
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
+        <h2 style={{ color: "#32221e", fontWeight: "bold" }}>
           Conditions générales
         </h2>
         <p style={{ color: "#7b635a" }}>
@@ -63,7 +56,7 @@ const Legal: React.FC = () => {
           asperiores.
         </p>
 
-        <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
+        <h2 style={{ color: "#32221e", fontWeight: "bold" }}>
           Politique de Confidentialité
         </h2>
         <p style={{ color: "#7b635a" }}>

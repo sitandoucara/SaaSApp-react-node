@@ -18,6 +18,7 @@ import {
   IonButtons,
 } from "@ionic/react";
 import { arrowForwardSharp, closeCircleSharp } from "ionicons/icons";
+import "../theme/variables.css";
 import Footer from "../components/Footer";
 
 type Article = {
@@ -58,15 +59,26 @@ const News: React.FC = () => {
     <IonPage>
       <IonHeader collapse="fade">
         <IonToolbar>
-          <IonTitle>News</IonTitle>
+          <IonTitle
+            className="font"
+            style={{ color: "#32221e", fontWeight: "bold" }}
+          >
+            News
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
         {articles.map((article) => (
-          <IonCard key={article.id}>
+          <IonCard
+            key={article.id}
+            className="font shadow_none"
+            style={{ background: "#FBF8F5" }}
+          >
             <IonCardHeader>
-              <IonCardTitle>{article.title}</IonCardTitle>
+              <IonCardTitle style={{ color: "#32221e" }}>
+                {article.title}
+              </IonCardTitle>
               <IonCardSubtitle>
                 {new Date(article.createdAt).toLocaleDateString()}
               </IonCardSubtitle>
@@ -86,22 +98,29 @@ const News: React.FC = () => {
       </IonContent>
 
       <IonModal isOpen={isOpen}>
-        <IonHeader>
+        <IonHeader collapse="fade">
           <IonToolbar>
-            <IonTitle>News</IonTitle>
+            <IonTitle
+              className="font"
+              style={{
+                color: "#32221e",
+              }}
+            >
+              News
+            </IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={() => setIsOpen(false)}>
-                <IonIcon icon={closeCircleSharp} />
+                <IonIcon style={{ color: "#32221e" }} icon={closeCircleSharp} />
               </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <h2>{selectedArticle?.title}</h2>
-          <h4>
+          <h2 style={{ color: "#32221e" }}>{selectedArticle?.title}</h2>
+          <p>
             {new Date(selectedArticle?.createdAt ?? "").toLocaleDateString()}
-          </h4>
-          <p>{selectedArticle?.content}</p>
+          </p>
+          <h4>{selectedArticle?.content}</h4>
         </IonContent>
       </IonModal>
       <IonFooter>

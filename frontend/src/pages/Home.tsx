@@ -12,14 +12,13 @@ import {
   IonImg,
   IonButton,
   IonLabel,
+  IonIcon,
 } from "@ionic/react";
 import { useAppSelector } from "../hooks";
 import { RootState } from "../app/store";
 import Footer from "../components/Footer";
-
-import "bootstrap-icons/font/bootstrap-icons.css";
-import "./Home.css";
-
+import { notificationsCircleSharp, personCircleSharp } from "ionicons/icons";
+import "../theme/variables.css";
 const Home: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
 
@@ -29,15 +28,11 @@ const Home: React.FC = () => {
         <IonToolbar>
           <IonGrid fixed={true}>
             <IonRow class="ion-justify-content-between">
-              <IonCol size="6" className="flex">
-                <i
-                  className="bi bi-person-circle"
-                  style={{ color: "#7b635a", fontSize: "var(--ion-icon-size)" }}
-                ></i>
+              <IonCol size="8" className="flex">
+                <IonIcon className="icon_large" icon={personCircleSharp} />
                 <h1
                   style={{
-                    color: "#7b635a",
-                    fontWeight: "medium",
+                    color: "#32221e",
                     margin: "0 10px",
                   }}
                 >
@@ -45,11 +40,12 @@ const Home: React.FC = () => {
                 </h1>
               </IonCol>
 
-              <IonCol size="6">
-                <i
-                  className="bi bi-bell-fill"
-                  style={{ color: "#7b635a", fontSize: "var(--ion-icon-size)" }}
-                ></i>
+              <IonCol size="4">
+                <IonIcon
+                  size="large"
+                  icon={notificationsCircleSharp}
+                  style={{ color: "#32221e" }}
+                />
               </IonCol>
             </IonRow>
           </IonGrid>
@@ -59,7 +55,7 @@ const Home: React.FC = () => {
         <IonSearchbar
           showCancelButton="focus"
           placeholder="Search a book"
-          class="custom-searchbar"
+          class="custom-searchbar font"
         ></IonSearchbar>
         <div className="tags-container">
           <IonButton className="custom-button-active" shape="round">
@@ -77,30 +73,36 @@ const Home: React.FC = () => {
         </div>
 
         <div className="book-category">
-          <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Popular</h2>
-          <IonLabel style={{ color: "red", cursor: "pointer" }}>
+          <h2 style={{ color: "#32221e", fontWeight: "bold" }}>Popular</h2>
+          <IonLabel
+            style={{ color: "#EC3E43", cursor: "pointer" }}
+            className="font"
+          >
             See all
           </IonLabel>
         </div>
         <div className="book-grid">
           <div className="book-item">
-            <IonImg src="book1.png" alt="Harry Potter"></IonImg>
-            <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>
+            <IonImg src="book1.png" alt="Harry Potter" className="img"></IonImg>
+            <h2 style={{ color: "#7B635A", fontWeight: "bold" }}>
               Harry Potter
             </h2>
-            <p style={{ color: "#7b635a" }}>J.K. Rowling</p>
-          </div>
-          <div className="book-item">
-            <IonImg src="book2.png" alt="Harry Potter"></IonImg>
-            <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Moby Dick</h2>
-            <p style={{ color: "#7b635a" }}>Herman Melville</p>
+            <p style={{ color: "#7B635A" }}>J.K. Rowling</p>
           </div>
 
-          {/* .... plus de livre */}
+          <div className="book-item">
+            <IonImg src="book4.png" alt="Harry Potter" className="img"></IonImg>
+            <h2 style={{ color: "#7B635A", fontWeight: "bold" }}>Moby Dick</h2>
+            <p style={{ color: "#7B635A" }}>Herman Melville</p>
+          </div>
         </div>
+
         <div className="book-category">
-          <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Detective</h2>
-          <IonLabel style={{ color: "red", cursor: "pointer" }}>
+          <h2 style={{ color: "#32221e", fontWeight: "bold" }}>Detective</h2>
+          <IonLabel
+            style={{ color: "#EC3E43", cursor: "pointer" }}
+            className="font"
+          >
             See all
           </IonLabel>
         </div>
@@ -113,11 +115,10 @@ const Home: React.FC = () => {
             <p style={{ color: "#7b635a" }}>J.K. Rowling</p>
           </div>
           <div className="book-item">
-            <IonImg src="book1.png" alt="Harry Potter"></IonImg>
+            <IonImg src="book3.png" alt="Harry Potter"></IonImg>
             <h2 style={{ color: "#7b635a", fontWeight: "bold" }}>Moby Dick</h2>
             <p style={{ color: "#7b635a" }}>Herman Melville</p>
           </div>
-          {/* .... plus de livre */}
         </div>
       </IonContent>
 

@@ -4,7 +4,7 @@ import { homeSharp, newspaperSharp, personSharp } from "ionicons/icons";
 
 const Footer: React.FC = () => {
   return (
-    <IonTabBar slot="bottom" className="footer-tab-bar">
+    <IonTabBar slot="bottom" className="footer-tab-bar font">
       <IonTabButton tab="home" href="/home">
         <IonIcon icon={homeSharp} />
         <IonLabel>Home</IonLabel>
